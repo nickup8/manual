@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Николай',
             'last_name' => 'Сироткин',
             'login' => '4500',
-            'password' => Hash::make('12345'),
+            'password' => bcrypt('password'),
         ]);
     }
 }
