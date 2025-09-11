@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('wire_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('type_name');
             $table->string('type_code');
             $table->timestamps();
 
-            $table->unique(['name', 'type_code']);
+            $table->unique(['type_name', 'type_code']);
         });
     }
 
