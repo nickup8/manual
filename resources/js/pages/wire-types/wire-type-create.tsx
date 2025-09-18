@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import WireLayout from '@/layouts/wires-leyout';
 import { BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-export default function WireTypeCreate() {
+export default function WireTypeCreate({ success }: { success: string | null }) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Провода',
@@ -24,19 +25,35 @@ export default function WireTypeCreate() {
         },
     ];
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    useEffect(() => {
+        if (success) {
+            toast.success(success);
+        }
+    }, [success]);
+
+    const [processing, setProcessing] = useState(false);
+
+    const { data, setData, errors, reset } = useForm({
         type_name: '',
         type_code: '',
     });
 
     function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        post('/wire-types');
-    }
+        setProcessing(true);
+        const transformData = {
+            ...data,
+            type_name: data.type_name.trim().toUpperCase(),
+            type_code: data.type_code.trim().toUpperCase(),
+        };
 
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
+        router.post('/wire-types', transformData, {
+            onSuccess: () => {
+                reset();
+                setProcessing(false);
+            },
+        });
+    }
 
     const onReset = () => {
         reset();

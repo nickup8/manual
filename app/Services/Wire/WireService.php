@@ -13,13 +13,15 @@ class WireService
     {
     }
 
-    public function createWireType(WireTypeStoreRequest $request)
+    public function createWireType($data)
     {
-        $data = $request->validated();
+        
 
-        $wyreType = WireType::create([
+        $wire_type = WireType::create([
             'type_name' => $data['type_name'],
             'type_code' => $data['type_code'],
         ]);
+
+        return $wire_type;
     }
 }

@@ -10,11 +10,10 @@ use Illuminate\Http\Request;
 
 class WireTypeController extends Controller
 {
-    private WireService $wireService;
-    public function __construct()
-    {
-        $this->wireService = new WireService();
-    }
+    
+    public function __construct(private WireService $wireService)
+{
+}
 
     public function index()
     {
@@ -26,13 +25,20 @@ class WireTypeController extends Controller
 
     public function create()
     {
-        return inertia('wire-types/wire-type-create');
+        logger('Session data:', session()->all());
+    logger('Success message:', [session('success')]);
+        return inertia('wire-types/wire-type-create', [
+            'success' => session('success'),
+        ]);
     }
 
     public function store(WireTypeStoreRequest $request)
     {
         
-        $this->wireService->createWireType($request);
-        return back()->with('success', `Тип провода {$request->type_name} успешно создан`);
+        $wireType = $this->wireService->createWireType($request->validated());
+    
+    // Для Inertia используем специальный метод
+    return back()
+        ->with('success', "Тип провода {$wireType->type_name} успешно создан");
     }
 }
