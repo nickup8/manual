@@ -14,6 +14,11 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Провода',
+        href: '/wires',
+        icon: null,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

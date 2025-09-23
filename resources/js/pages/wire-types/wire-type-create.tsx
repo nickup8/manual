@@ -33,7 +33,7 @@ export default function WireTypeCreate({ success }: { success: string | null }) 
 
     const [processing, setProcessing] = useState(false);
 
-    const { data, setData, errors, reset } = useForm({
+    const { data, setData, reset } = useForm({
         type_name: '',
         type_code: '',
     });
@@ -51,6 +51,9 @@ export default function WireTypeCreate({ success }: { success: string | null }) 
             onSuccess: () => {
                 reset();
                 setProcessing(false);
+            },
+            onError: () => {
+                (setProcessing(false), toast.error('При создании типа провода произошла ошибка. Проверьте введенные данные и попробуйте снова.'));
             },
         });
     }
@@ -73,7 +76,6 @@ export default function WireTypeCreate({ success }: { success: string | null }) 
                                 name="type_name"
                                 onChange={(e) => setData('type_name', e.target.value)}
                                 value={data.type_name}
-                                error={errors.type_name}
                             />
                             <FormField
                                 label="Код типа провода"
@@ -81,7 +83,6 @@ export default function WireTypeCreate({ success }: { success: string | null }) 
                                 name="type_code"
                                 onChange={(e) => setData('type_code', e.target.value)}
                                 value={data.type_code}
-                                error={errors.type_code}
                             />
                         </div>
                         <div className="flex space-x-2">

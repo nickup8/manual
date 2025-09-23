@@ -9,6 +9,7 @@ export default function FormField({
     onChange,
     value,
     error,
+    option,
 }: {
     label: string;
     id: string;
@@ -16,6 +17,7 @@ export default function FormField({
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     value: string;
     error?: string;
+    option?: { label: string; value: string }[];
 }) {
     return (
         <div className="w-full">

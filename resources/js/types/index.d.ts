@@ -76,3 +76,30 @@ export interface PropsResponse<T> {
     links: PaginationLinks;
     meta: PaginationMeta;
 }
+
+export interface SelectOption {
+    label: string;
+    value: string;
+}
+
+export interface WireColor {
+    id: number;
+    color_name: string;
+    color_code: string;
+}
+
+export interface WireType {
+    id: number;
+    type_name: string;
+    type_code: string;
+}
+
+export interface Wire {
+    id: number;
+    wire_code: string;
+    wire_type: WireType;
+    cross_section: number;
+    description: string;
+    base_color: WireColor;
+    stripe_color: WireColor;
+}
