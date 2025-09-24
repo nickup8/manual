@@ -157,7 +157,7 @@ export default function WireCreate({
         try {
             // Преобразование данных для отправки
             const transformData = {
-                wire_code: data.wire_code.trim(),
+                wire_code: data.wire_code.trim().toUpperCase(),
                 wire_type_id: data.wire_type_id,
                 cross_section: Number(data.cross_section.trim().replace(',', '.')),
                 description: data.description.trim(),
@@ -169,7 +169,6 @@ export default function WireCreate({
             await router.post('/wires', transformData, {
                 onSuccess: () => {
                     reset();
-                    toast.success('Провод успешно создан!');
                 },
                 onError: (errors: ServerErrors) => {
                     // Ошибки с сервера автоматически попадут в пропсы
