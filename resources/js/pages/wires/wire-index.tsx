@@ -4,7 +4,7 @@ import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import AppLayout from '@/layouts/app-layout';
 import WireLayout from '@/layouts/wires-leyout';
 import { BreadcrumbItem, WireColor, WireType } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { PlusCircle, Search } from 'lucide-react';
 import { useState } from 'react';
 import WireFilter from './wire-filter';
@@ -28,9 +28,11 @@ export default function WireIndex({ wire_types, wire_colors }: { wire_types: Wir
                     <HeadingSmall title="Провода" description="Создавайте, удаляйте и редактируйте провода для полуфабрикатов" />
                     <div className="flex flex-col space-y-6">
                         <div className="w-full space-x-4">
-                            <Button>
-                                <PlusCircle className="h-4 w-4" />
-                                Добавить провод
+                            <Button asChild>
+                                <Link href="/wires/create">
+                                    <PlusCircle className="h-4 w-4" />
+                                    Добавить провод
+                                </Link>
                             </Button>
                             <Sheet open={open} onOpenChange={setOpen}>
                                 <SheetTrigger asChild>
