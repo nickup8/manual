@@ -103,3 +103,22 @@ export interface Wire {
     base_color: WireColor;
     stripe_color: WireColor;
 }
+
+export interface FilterConfig {
+    [key: string]: string;
+}
+
+export interface ActiveFilter {
+    key: string;
+    value: any;
+    label: string;
+}
+
+export interface WireFilterParams {
+    wire_code?: string;
+    wire_type_id?: string;
+    cross_section?: string;
+    base_color_id?: string;
+    stripe_color_id?: string;
+    description?: string;
+}

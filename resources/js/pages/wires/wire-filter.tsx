@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { WireColor, WireType } from '@/types';
+import { WireColor, WireFilterParams, WireType } from '@/types';
 import { router, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
@@ -14,21 +14,21 @@ type FormFieldsProps = 'wire_code' | 'wire_type_id' | 'cross_section' | 'descrip
 export default function WireFilter({
     wire_types,
     wire_colors,
-    queryParams = {},
+    queryParams,
     setOpen,
 }: {
     wire_types: WireType[];
     wire_colors: any;
     setOpen: (open: boolean) => void;
-    queryParams?: Record<string, string>;
+    queryParams?: WireFilterParams;
 }) {
     const { data, setData, reset } = useForm({
-        wire_code: queryParams.wire_code || '',
-        wire_type_id: queryParams.wire_type_id || '',
-        cross_section: queryParams.cross_section || '',
-        description: queryParams.description || '',
-        base_color_id: queryParams.base_color_id || '',
-        stripe_color_id: queryParams.stripe_color_id || '',
+        wire_code: queryParams?.wire_code || '',
+        wire_type_id: queryParams?.wire_type_id || '',
+        cross_section: queryParams?.cross_section || '',
+        description: queryParams?.description || '',
+        base_color_id: queryParams?.base_color_id || '',
+        stripe_color_id: queryParams?.stripe_color_id || '',
     });
 
     const wire_types_options = wire_types.map((wire_type) => ({
@@ -39,23 +39,39 @@ export default function WireFilter({
     const [processing, setProcessing] = useState(false);
 
     // ✅ ПРАВИЛЬНАЯ функция submit
-    const submit = (e: React.FormEvent) => {
+    const submit = async (e: React.FormEvent) => {
         e.preventDefault();
         setProcessing(true);
-        // Фильтруем пустые значения
-        const filteredData = Object.fromEntries(Object.entries(data).filter(([, value]) => value !== '' && value !== null));
 
-        // Объединяем с существующими параметрами
-        const params = { ...queryParams, ...filteredData };
+        try {
+            const preparedData: Partial<Record<FormFieldsProps, string>> = {};
 
-        router.get('/wires', params, {
-            preserveState: true,
-            preserveScroll: true,
-            onSuccess: () => {
-                setOpen(false);
-                setProcessing(false);
-            },
-        });
+            Object.entries(data).forEach(([key, value]) => {
+                const fieldKey = key as FormFieldsProps; // ⚠️ Приводим к типу
+
+                if (value !== '' && value !== null && value !== undefined) {
+                    if (fieldKey === 'cross_section' && typeof value === 'string') {
+                        preparedData[fieldKey] = value.trim().replace(',', '.');
+                    } else {
+                        preparedData[fieldKey] = value as string;
+                    }
+                }
+            });
+
+            await router.get('/wires', preparedData, {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    setOpen(false);
+                    setProcessing(false);
+                },
+                onError: () => {
+                    setProcessing(false);
+                },
+            });
+        } catch (error) {
+            setProcessing(false);
+        }
     };
 
     // Функция для обработки изменений input
