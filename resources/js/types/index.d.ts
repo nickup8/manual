@@ -122,3 +122,13 @@ export interface WireFilterParams {
     stripe_color_id?: string;
     description?: string;
 }
+
+export interface Terminal {
+    id: number;
+    part_number: string;
+    supplier_part_number: string;
+    supplier_name: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+}

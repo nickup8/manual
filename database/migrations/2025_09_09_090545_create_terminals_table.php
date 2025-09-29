@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
 
-            $table->unique(['part_number', 'supplier_number']);
+            $table->unique(['part_number', 'supplier_part_number']);
         });
     }
 
