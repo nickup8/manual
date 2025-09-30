@@ -18,7 +18,7 @@ export interface NavGroup {
 export interface NavItem {
     title: string;
     href: NonNullable<InertiaLinkProps['href']>;
-    icon?: LucideIcon | null;
+    icon?: LucideIcon | ComponentType<SVGProps<SVGSVGElement>> | null;
     isActive?: boolean;
 }
 

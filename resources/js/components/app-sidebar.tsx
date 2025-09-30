@@ -1,11 +1,10 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Cable, CircleDashed, Folder, LayoutGrid } from 'lucide-react';
+import { Cable, CircleDot, Diameter, GitCommitHorizontal, GitMerge, Hammer, LayoutGrid, ShieldCheck, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -15,29 +14,59 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
+        title: 'Полуфабрикаты',
+        href: '/leadsets',
+        icon: GitMerge,
+    },
+    {
         title: 'Провода',
         href: '/wires',
-        icon: Cable,
+        icon: GitCommitHorizontal,
     },
     {
         title: 'Терминалы',
         href: '/terminals',
-        icon: CircleDashed,
+        icon: Cable,
+    },
+    {
+        title: 'Уплотнители',
+        href: '/seals',
+        icon: CircleDot,
+    },
+    {
+        title: 'Параметры обжима',
+        href: '/crimping',
+        icon: Diameter,
+    },
+    {
+        title: 'Аппликаторы',
+        href: '/applicators',
+        icon: Hammer,
+    },
+    {
+        title: 'Контроль качества',
+        href: '/quality',
+        icon: ShieldCheck,
+    },
+    {
+        title: 'Пользователи',
+        href: '/users',
+        icon: Users,
     },
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
+// const footerNavItems: NavItem[] = [
+//     {
+//         title: 'Пользователи',
+//         href: '/users',
+//         icon: Users,
+//     },
+//     {
+//         title: 'Documentation',
+//         href: 'https://laravel.com/docs/starter-kits#react',
+//         icon: BookOpen,
+//     },
+// ];
 
 export function AppSidebar() {
     return (
@@ -59,7 +88,7 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
+                {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
