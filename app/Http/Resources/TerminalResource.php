@@ -18,8 +18,10 @@ class TerminalResource extends JsonResource
             'id' => $this->id,
             'part_number' => $this->part_number,
             'supplier_part_number' => $this->supplier_part_number,
-            'supplier_name' => $this->supplier,
+            'supplier_name' => $this->supplier_name,
             'description' => $this->description,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->created_at,
         ];
     }
 }

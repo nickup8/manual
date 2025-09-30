@@ -34,11 +34,11 @@ export default function TerminalIndex({ terminals, filter }: { terminals: PropsR
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Терминалы" />
 
-            <div className="flex flex-col px-4 py-6">
+            <div className="flex flex-col space-y-6 px-4 py-6">
                 <Heading title="Терминалы" description="Управляйте номенклатурой терминалов." />
                 <div className="flex items-center gap-2">
                     <Button asChild>
-                        <Link href="/wires/create">
+                        <Link href="/terminals/create">
                             <PlusCircle className="h-4 w-4" />
                             Добавить терминал
                         </Link>
@@ -62,10 +62,8 @@ export default function TerminalIndex({ terminals, filter }: { terminals: PropsR
                         </div>
                     </Button>
                 </div>
-                <div className="mt-4">
-                    {activeFilter.length > 0 && <ActiveFilters filters={activeFilter} />}
-                    <TerminalTable data={terminals.data} />
-                </div>
+                {activeFilter.length > 0 && <ActiveFilters filters={activeFilter} />}
+                <TerminalTable data={terminals.data} />
             </div>
         </AppLayout>
     );

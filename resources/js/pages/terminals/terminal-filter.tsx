@@ -5,7 +5,7 @@ import { router, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 
-type FormFieldsProps = 'part_number' | 'supplier_purt_number' | 'supplier_name' | 'description';
+type FormFieldsProps = 'part_number' | 'supplier_part_number' | 'supplier_name' | 'description';
 export default function TerminalFilter({
     queryParams,
     setOpen,
@@ -19,7 +19,7 @@ export default function TerminalFilter({
     // useForm
     const { data, setData, reset } = useForm({
         part_number: queryParams?.part_number || '',
-        supplier_purt_number: queryParams?.supplier_purt_number || '',
+        supplier_part_number: queryParams?.supplier_part_number || '',
         supplier_name: queryParams?.supplier_name || '',
         description: queryParams?.description || '',
     });
@@ -79,10 +79,10 @@ export default function TerminalFilter({
                 {/* Input поле */}
                 <FormField
                     label="Код поставщика (SPN)"
-                    id="supplier_purt_number"
-                    name="supplier_purt_number"
-                    onChange={handleInputChange('supplier_purt_number')}
-                    value={data.supplier_purt_number}
+                    id="supplier_part_number"
+                    name="supplier_part_number"
+                    onChange={handleInputChange('supplier_part_number')}
+                    value={data.supplier_part_number}
                 />
                 {/* Input поле */}
                 <FormField

@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TerminalStoreRequest;
 use App\Http\Resources\TerminalResource;
 use App\Models\Terminal;
+use App\Services\Terminal\TerminalService;
 use Illuminate\Http\Request;
 
 class TerminalController extends Controller
 {
+
+    public function __construct(private TerminalService $terminalService)
+    {}
     public function index(Request $request )
     {
         $filter = $request->only([
@@ -38,5 +43,20 @@ class TerminalController extends Controller
             'terminals' => TerminalResource::collection($terminals),
             'filter' => $filter,
         ]);
+    }
+
+    public function create()
+    {
+        return inertia('terminals/terminal-create', [
+            'success' => session('success'),
+        ]);
+    }
+
+    public function store(TerminalStoreRequest $request)
+    {
+        $data = $request->validated();
+        $terminal = $this->terminalService->createTerminal($data);
+        
+        return back()->with('success', "Терминал {$terminal->part_number} успешно создан");
     }
 }
