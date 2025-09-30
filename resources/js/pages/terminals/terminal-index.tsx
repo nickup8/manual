@@ -1,5 +1,6 @@
 import { ActiveFilters } from '@/components/active-filters';
 import Heading from '@/components/heading';
+import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
@@ -64,6 +65,11 @@ export default function TerminalIndex({ terminals, filter }: { terminals: PropsR
                 </div>
                 {activeFilter.length > 0 && <ActiveFilters filters={activeFilter} />}
                 <TerminalTable data={terminals.data} />
+                {terminals.meta.last_page > 1 && (
+                    <div className="mt-2 flex justify-center">
+                        <Pagination links={terminals.meta.links} />
+                    </div>
+                )}
             </div>
         </AppLayout>
     );
