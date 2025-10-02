@@ -128,6 +128,9 @@ export default function TerminalCreate({ success, error }: { success: string | n
                         </Button>
                     </div>
                 </form>
+                <div className="mt-6 text-sm text-muted-foreground">
+                    <span className="text-red-500">*</span> - Обязательные поля для заполнения
+                </div>
             </div>
         </AppLayout>
     );

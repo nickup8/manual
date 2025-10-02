@@ -132,3 +132,20 @@ export interface Terminal {
     created_at: string;
     updated_at: string;
 }
+
+export interface Seal {
+    id: number;
+    part_number: string;
+    supplier_part_number: string;
+    supplier_name: string;
+    description: string;
+    color: SealColor;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface SealColor {
+    id: number;
+    color_name: string;
+    color_code: string;
+}

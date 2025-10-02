@@ -69,7 +69,8 @@ class DatabaseSeeder extends Seeder
             DB::table('color_seals')->insert([
                 'color_name' => $seal_color['name'],
                 'color_code' => $seal_color['hex'],
-                
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
