@@ -30,12 +30,11 @@ return new class extends Migration
             $table->decimal('insulation_crimp_width_max', 3, 2);
             $table->integer('primary_wire_separation_force');
             $table->integer('secondary_wire_separation_force')->nullable();
-            $table->enum('location_wires', ['Рядом', 'Внакладку'])->nullable();
+            $table->enum('location_wires', ['inside', 'near'])->nullable();
             $table->string('customer');
             $table->timestamps();
 
-
-            $table->unique(['terminal_id', 'seal_id', 'primary_wire_type_id', 'secondary_wire_type_id', 'primary_wire_cross_section', 'secondary_wire_cross_section','customer']);
+            $table->unique(['terminal_id', 'seal_id', 'primary_wire_type_id', 'secondary_wire_type_id', 'primary_wire_cross_section', 'secondary_wire_cross_section', 'customer']);
 
             $table->index(['terminal_id', 'seal_id', 'primary_wire_type_id', 'secondary_wire_type_id', 'primary_wire_cross_section', 'secondary_wire_cross_section']);
 

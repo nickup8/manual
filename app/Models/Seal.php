@@ -14,7 +14,8 @@ class Seal extends Model
         'color_id',
     ];
 
-    public function color() {
+    public function color()
+    {
         return $this->belongsTo(ColorSeal::class, 'color_id');
     }
 }

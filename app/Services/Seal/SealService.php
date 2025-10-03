@@ -6,7 +6,8 @@ use App\Models\Seal;
 
 class SealService
 {
-    public function createSeal($data){
+    public function createSeal($data)
+    {
         $seal = Seal::create([
             'part_number' => $data['part_number'],
             'supplier_part_number' => $data['supplier_part_number'],
@@ -14,6 +15,7 @@ class SealService
             'description' => $data['description'],
             'color_id' => $data['color'],
         ]);
+
         return $seal;
     }
 }

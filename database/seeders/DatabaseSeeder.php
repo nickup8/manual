@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\WireColor;
 use DB;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {

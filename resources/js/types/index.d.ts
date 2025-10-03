@@ -149,3 +149,28 @@ export interface SealColor {
     color_name: string;
     color_code: string;
 }
+
+export interface CrimpStandard {
+    id: number;
+    terminal: Terminal;
+    seal: Seal;
+    primary_wire_type: WireType;
+    secondary_wire_type: WireType | null;
+    primary_wire_cross_section: number;
+    secondary_wire_cross_section: number | null;
+    strip_length: number;
+    conductor_crimp_height: number;
+    conductor_crimp_height_tolerance: number;
+    conductor_crimp_width_min: number;
+    conductor_crimp_width_max: number;
+    insulation_crimp_height: number;
+    insulation_crimp_height_tolerance: number;
+    insulation_crimp_width_min: number;
+    insulation_crimp_width_max: number;
+    primary_wire_separation_force: number;
+    secondary_wire_separation_force: number | null;
+    location_wires: string | null;
+    customer: string;
+    created_at: string;
+    updated_at: string;
+}

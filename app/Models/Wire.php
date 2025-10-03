@@ -22,5 +22,4 @@ class Wire extends Model
     {
         return $this->belongsTo(WireColor::class, 'stripe_color_id');
     }
-    
 }

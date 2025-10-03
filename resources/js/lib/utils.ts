@@ -1,4 +1,4 @@
-import { WireColor, WireType } from '@/types';
+import { SealColor, WireColor, WireType } from '@/types';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -59,6 +59,41 @@ export function getWireActiveFilters(filter: Record<string, any>, labels: Record
             key: 'stripe_color_id',
             label: 'Дополнительный цвет',
             value: stripeColor?.color_name || `ID: ${filter.stripe_color_id}`,
+        });
+    }
+
+    return activeFilters;
+}
+
+export function getSealActiveFilters(filter: Record<string, any>, labels: Record<string, string>, seal_colors: SealColor[]) {
+    const activeFilters = [];
+    if (filter.part_number) {
+        activeFilters.push({
+            key: 'part_number',
+            label: 'Уплотнитель (YPN)',
+            value: filter.part_number,
+        });
+    }
+    if (filter.supplier_part_number) {
+        activeFilters.push({
+            key: 'supplier_part_number',
+            label: 'Код поставщика (SPN)',
+            value: filter.supplier_part_number,
+        });
+    }
+    if (filter.supplier_name) {
+        activeFilters.push({
+            key: 'supplier_name',
+            label: 'Поставщик',
+            value: filter.supplier_name,
+        });
+    }
+    if (filter.color) {
+        const sealColor = seal_colors.find((color) => color.id === Number(filter.color));
+        activeFilters.push({
+            key: 'color',
+            label: 'Цвет',
+            value: sealColor?.color_name || `ID: ${filter.color}`,
         });
     }
 

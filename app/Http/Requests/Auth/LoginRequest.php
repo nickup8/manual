@@ -39,13 +39,13 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-        
+
         $credentials = [
             'login' => $this->input('login'),
             'password' => $this->input('password'),
         ];
 
-        logger('Auth attempt with:',$credentials);
+        logger('Auth attempt with:', $credentials);
 
         if (! Auth::attempt($credentials)) {
             RateLimiter::hit($this->throttleKey());

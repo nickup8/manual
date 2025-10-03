@@ -18,3 +18,4 @@ require __DIR__.'/auth.php';
 require __DIR__.'/wire.php';
 require __DIR__.'/terminal.php';
 require __DIR__.'/seal.php';
+require __DIR__.'/crimpStandards.php';

@@ -3,14 +3,10 @@
 namespace App\Services\Terminal;
 
 use App\Models\Terminal;
-use Illuminate\Support\Facades\Response;
-
 
 class TerminalService
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function createTerminal($data)
     {

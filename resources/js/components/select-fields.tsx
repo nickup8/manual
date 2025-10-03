@@ -13,6 +13,7 @@ export default function SelectFields({
     message,
     required,
     error,
+    disabled,
 }: {
     options: SelectOption[];
     label: string;
@@ -22,14 +23,17 @@ export default function SelectFields({
     message?: string;
     required?: boolean;
     error?: string;
+    disabled?: boolean;
 }) {
     return (
-        <div className="">
+        <div className={className}>
             <Label>
-                {label} {required && <span className="text-red-500">*</span>}
+                <span className={disabled ? 'text-muted-foreground' : ''}>
+                    {label} {required && <span className="text-red-500">*</span>}
+                </span>
             </Label>
-            <div>
-                <Select value={value} onValueChange={onChange} required={required}>
+            <div className="mt-1">
+                <Select value={value} onValueChange={onChange} required={required} disabled={disabled}>
                     <SelectTrigger className={className}>
                         <SelectValue placeholder={message}></SelectValue>
                     </SelectTrigger>
