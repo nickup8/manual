@@ -150,6 +150,8 @@ export interface SealColor {
     color_code: string;
 }
 
+export type LocationWires = 'inside' | 'near';
+
 export interface CrimpStandard {
     id: number;
     terminal: Terminal;
@@ -169,7 +171,7 @@ export interface CrimpStandard {
     insulation_crimp_width_max: number;
     primary_wire_separation_force: number;
     secondary_wire_separation_force: number | null;
-    location_wires: string | null;
+    location_wires: LocationWires | null;
     customer: string;
     created_at: string;
     updated_at: string;

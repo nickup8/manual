@@ -1,4 +1,5 @@
 import { DataTable } from '@/components/data-table';
+import { LOCATION_WIRES } from '@/lib/constants';
 import { CrimpStandard } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -55,6 +56,13 @@ export default function CrimpStandardTable({ data }: { data: CrimpStandard[] }) 
             header: 'Сечение провода 2',
             cell: ({ row }) => {
                 return row.original.secondary_wire_cross_section ? row.original.secondary_wire_cross_section : '-';
+            },
+        },
+        {
+            accessorKey: 'location_wires',
+            header: 'Расположение проводов',
+            cell: ({ row }) => {
+                return row.original.location_wires ? LOCATION_WIRES[row.original.location_wires] : '-';
             },
         },
         {

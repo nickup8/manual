@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('terminal_id')->constrained('terminals')->nullOnDelete();
             $table->foreignId('seal_id')->nullable()->constrained('seals')->nullOnDelete();
-            $table->foreignId('primary_wire_type_id')->constrained('wires')->nullOnDelete();
-            $table->foreignId('secondary_wire_type_id')->nullable()->constrained('wires')->nullOnDelete();
-            $table->decimal('primary_wire_cross_section', 3, 2);
-            $table->decimal('secondary_wire_cross_section', 3, 2)->nullable();
+            $table->foreignId('primary_wire_type_id')->constrained('wire_types')->nullOnDelete();
+            $table->foreignId('secondary_wire_type_id')->nullable()->constrained('wire_types')->nullOnDelete();
+            $table->decimal('primary_wire_cross_section', 5, 2);
+            $table->decimal('secondary_wire_cross_section', 5, 2)->nullable();
             $table->decimal('strip_length', 3, 2);
             $table->decimal('conductor_crimp_height', 3, 2);
             $table->decimal('conductor_crimp_height_tolerance', 3, 2);
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->decimal('insulation_crimp_width_max', 3, 2);
             $table->integer('primary_wire_separation_force');
             $table->integer('secondary_wire_separation_force')->nullable();
-            $table->enum('location_wires', ['inside', 'near'])->nullable();
+            $table->string('location_wires')->nullable();
             $table->string('customer');
             $table->timestamps();
 

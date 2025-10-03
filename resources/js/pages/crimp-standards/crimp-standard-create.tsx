@@ -122,6 +122,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                 location_wires: data.location_wires.trim().toLowerCase(),
                 customer: data.customer.trim().toUpperCase(),
             };
+            console.log(preparedData);
             await router.post('/crimping', preparedData, {
                 onSuccess: () => {
                     setProccesing(false);
