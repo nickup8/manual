@@ -176,3 +176,15 @@ export interface CrimpStandard {
     created_at: string;
     updated_at: string;
 }
+
+export interface Tool {
+    inventory_number: string;
+    terminal: Terminal;
+    seal: Seal | null;
+    any_seal: string | null;
+    primary_wire_type: WireType;
+    secondary_wire_type: WireType | null;
+    location: string | null;
+    created_at: string;
+    updated_at: string;
+}

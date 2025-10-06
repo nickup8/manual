@@ -11,15 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('crimping_tools', function (Blueprint $table) {
+        Schema::create('tools', function (Blueprint $table) {
             $table->id();
-            $table->string('inventory_number')->unique();
+            $table->string('inventory_number');
             $table->foreignId('terminal_id')->constrained('terminals')->onDelete('cascade');
-            $table->boolean('seal')->default(false);
-            $table->foreignId('primary_wire_id')->nullable()->constrained('wires')->onDelete('cascade');
-            $table->foreignId('secondary_wire_id')->nullable()->constrained('wires')->onDelete('cascade');
+            $table->foreignId('seal_id')->nullable()->constrained('seals')->onDelete('cascade');
+            $table->string('any_seal')->nullable();
+            $table->foreignId('primary_wire_type_id')->nullable()->constrained('wire_types')->onDelete('cascade');
+            $table->foreignId('secondary_wire_type_id')->nullable()->constrained('wire_types')->onDelete('cascade');
             $table->string('location');
+            $table->string('customer');
             $table->timestamps();
+
+
+            $table->unique(['inventory_number', 'terminal_id', 'seal_id', 'primary_wire_type_id', 'secondary_wire_type_id', 'customer']);
         });
     }
 
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('crimping_tools');
+        Schema::dropIfExists('tools');
     }
 };
