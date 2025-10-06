@@ -11,7 +11,7 @@ interface UserMenuContentProps {
     user: User;
 }
 
-export function UserMenuContent({ user }: UserMenuContentProps) {
+export function UserMenuContent({ user }: { user: User }) {
     const cleanup = useMobileNavigation();
 
     const handleLogout = () => {
