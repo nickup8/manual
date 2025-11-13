@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('leadsets', function (Blueprint $table) {
+        Schema::create('leadset_leadsets', function (Blueprint $table) {
             $table->id();
-            $table->string('leadset_number')->unique();
-            $table->string('description')->nullable();
-            $table->string('customer');
-            $table->enum('status', ['normal', 'incomplete'])->default('incomplite');
-            $table->text('notes')->nullable();
+            $table->foreignId('leadset_id')->constrained('leadsets')->onDelete('cascade');
+            $table->foreignId('leadset_2_id')->constrained('leadsets')->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['leadset_id', 'leadset_2_id']);
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leadsets');
+        Schema::dropIfExists('leadset_leadsets');
     }
 };
