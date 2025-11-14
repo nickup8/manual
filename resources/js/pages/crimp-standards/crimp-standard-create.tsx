@@ -122,7 +122,6 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                 location_wires: data.location_wires.trim().toLowerCase(),
                 customer: data.customer.trim().toUpperCase(),
             };
-            console.log(preparedData);
             await router.post('/crimping', preparedData, {
                 onSuccess: () => {
                     setProccesing(false);
@@ -150,6 +149,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             requiredIs
                             id="terminal"
                             error={errors.terminal}
+                            className="w-full"
                         />
                         <FormField
                             label="Уплотнитель"
@@ -158,6 +158,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             onChange={(e) => setData('seal', e.target.value)}
                             id="seal"
                             error={errors.seal}
+                            className="w-full"
                         />
                     </div>
                     <div className="flex space-x-2">
@@ -178,6 +179,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="primary_wire_cross_section"
                             requiredIs
                             error={errors.primary_wire_cross_section}
+                            className="w-full"
                         />
                         <SelectFields
                             options={wireTypesOption}
@@ -195,6 +197,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="secondary_wire_cross_section"
                             disabled={!data.secondary_wire_type}
                             error={errors.secondary_wire_cross_section}
+                            className="w-full"
                         />
                         <SelectFields
                             options={locationWiresOption}
@@ -215,6 +218,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="strip_length"
                             requiredIs
                             error={errors.strip_length}
+                            className="w-full"
                         />
                         <FormField
                             label="Высота обжима по жиле (мм)"
@@ -224,6 +228,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="conductor_crimp_height"
                             requiredIs
                             error={errors.conductor_crimp_height}
+                            className="w-full"
                         />
                         <FormField
                             label="Допуск обжима по жиле (мм)"
@@ -233,6 +238,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="conductor_crimp_height_tolerance"
                             requiredIs
                             error={errors.conductor_crimp_height_tolerance}
+                            className="w-full"
                         />
                         <FormField
                             label="Высота обжима по изоляции (мм)"
@@ -242,6 +248,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="insulation_crimp_height"
                             requiredIs
                             error={errors.insulation_crimp_height}
+                            className="w-full"
                         />
                         <FormField
                             label="Допуск обжима по изоляции (мм)"
@@ -251,6 +258,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="insulation_crimp_height_tolerance"
                             requiredIs
                             error={errors.insulation_crimp_height_tolerance}
+                            className="w-full"
                         />
                     </div>
                     <div className="flex space-x-2">
@@ -262,6 +270,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="conductor_crimp_width_min"
                             requiredIs
                             error={errors.conductor_crimp_width_min}
+                            className="w-full"
                         />
                         <FormField
                             label="Макс. ширина обжима по жиле (мм)"
@@ -271,6 +280,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="conductor_crimp_width_max"
                             requiredIs
                             error={errors.conductor_crimp_width_max}
+                            className="w-full"
                         />
                         <FormField
                             label="Мин. ширина обжима по изоляции (мм)"
@@ -280,6 +290,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="insulation_crimp_width_min"
                             requiredIs
                             error={errors.insulation_crimp_width_min}
+                            className="w-full"
                         />
                         <FormField
                             label="Макс. ширина обжима по изоляции (мм)"
@@ -289,6 +300,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="insulation_crimp_width_max"
                             requiredIs
                             error={errors.insulation_crimp_width_max}
+                            className="w-full"
                         />
                     </div>
                     <div className="flex space-x-2">
@@ -300,6 +312,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="primary_wire_separation_force"
                             requiredIs
                             error={errors.primary_wire_separation_force}
+                            className="w-full"
                         />
                         <FormField
                             label="Усилие отрыва провода 2 (Н)"
@@ -309,6 +322,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="secondary_wire_separation_force"
                             disabled={!data.secondary_wire_type}
                             error={errors.secondary_wire_separation_force}
+                            className="w-full"
                         />
                         <FormField
                             label="Заказчик"
@@ -318,6 +332,7 @@ export default function CrimpStandardCreate({ wireTypes, success }: { wireTypes:
                             id="customer"
                             requiredIs
                             error={errors.customer}
+                            className="w-full"
                         />
                     </div>
                     <div className="flex space-x-2">

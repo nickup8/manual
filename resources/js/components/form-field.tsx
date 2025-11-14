@@ -28,7 +28,7 @@ export default function FormField({
     disabled?: boolean;
 }) {
     return (
-        <div className="w-full">
+        <div className={className}>
             <Label htmlFor={id}>
                 <span className={disabled ? 'text-muted-foreground' : ''}>
                     {label} {requiredIs && <span className="text-red-500">*</span>}
@@ -38,7 +38,7 @@ export default function FormField({
                 disabled={disabled}
                 id={id}
                 name={name}
-                className={'mt-1 block w-full ' + className}
+                className={'mt-1 block w-full'}
                 onChange={onChange}
                 value={value}
                 placeholder={placeholder}

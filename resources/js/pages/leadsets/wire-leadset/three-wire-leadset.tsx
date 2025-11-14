@@ -1,3 +1,6 @@
+import { LOCATION_WIRES } from '@/lib/constants';
+import { LocationWires } from '@/types';
+
 interface ThreeWireLeadsetProps {
     leadsetOne: string;
     leadsetTwo: string;
@@ -8,6 +11,8 @@ interface ThreeWireLeadsetProps {
     terminalFour: string;
     sealOne: string;
     sealFour: string;
+    locationWiresTwo: string;
+    locationWiresOne: string;
 }
 
 export default function ThreeWireLeadset({
@@ -18,9 +23,14 @@ export default function ThreeWireLeadset({
     terminalTwo,
     terminalThree,
     terminalFour,
+    locationWiresTwo,
+    locationWiresOne,
 }: ThreeWireLeadsetProps) {
+    function isLocationWires(value: string): value is LocationWires {
+        return value === 'inside' || value === 'near';
+    }
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="913" height="280" viewBox="0 0 913 260" fill="none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="913" height="280" viewBox="0 0 913 250" fill="none">
             {terminalFour && (
                 <rect x="831" y="241" width="16" height="21" transform="rotate(180 831 241)" fill="#D9D9D9">
                     <title>Контакт 4</title>
@@ -49,13 +59,13 @@ export default function ThreeWireLeadset({
                 strokeWidth="8"
             />
             <text x="778 " y="-2" fill="#7C7C7C" fontSize="16">
-                рядом
+                {isLocationWires(locationWiresOne) ? LOCATION_WIRES[locationWiresOne] : ''}
             </text>
             <path d="M85.5 20.5H828" stroke="black" strokeWidth="20" />
             <path d="M85.5 230.5C166 230.5 828 230.5 828 230.5H85.5Z" stroke="black" strokeWidth="20" />
             <path d="M85.5 230.5C166 230.5 828 230.5 828 230.5H85.5Z" stroke="white" strokeWidth="8" />
-            <text x="90 " y="260" fill="#7C7C7C" fontSize="16">
-                внакладку
+            <text x="90" y="260" fill="#7C7C7C" fontSize="16">
+                {isLocationWires(locationWiresTwo) ? LOCATION_WIRES[locationWiresTwo] : ''}
             </text>
             <path d="M85.5 20.5H828" stroke="#f5f5f5" strokeWidth="8" />
             <path d="M828 20.5C665.5 20.5 599.5 109.5 442.5 129.53C285.5 149.561 217.5 230.5 85.5 230.5" stroke="green" strokeWidth="20" /> /// 111

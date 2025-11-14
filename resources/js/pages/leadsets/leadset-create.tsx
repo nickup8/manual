@@ -4,12 +4,14 @@ import SelectFields from '@/components/select-fields';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import OneWireForm from './wire-leadset/one-wire-form';
 import OneWireLeadset from './wire-leadset/one-wire-leadset';
 import ThreeWireForm from './wire-leadset/three-wire-form';
 import ThreeWireLeadset from './wire-leadset/three-wire-leadset';
+import TwoWireForm from './wire-leadset/two-wire-form';
+import TwoWireLeadSet from './wire-leadset/two-wire-leadset';
 
 interface FormData {
     leadsetNumber: string;
@@ -26,6 +28,12 @@ interface FormData {
     sealFour: string;
     wire: string;
     wireName: string;
+    wireCount: string;
+    customer: string;
+    description: string;
+    notes: string;
+    locationWiresTwo: string;
+    locationWiresOne: string;
 }
 
 export default function LeadsetCreate() {
@@ -41,10 +49,11 @@ export default function LeadsetCreate() {
     ];
 
     const [wireCounter, setWireCounter] = useState(1);
+    const [proccesing, setProccesing] = useState(false);
 
     const [enter, setEnter] = useState(false);
 
-    const { data, setData } = useForm<FormData>({
+    const { data, setData, reset } = useForm<FormData>({
         leadsetNumber: '',
         leadsetOne: '',
         leadsetTwo: '',
@@ -59,6 +68,12 @@ export default function LeadsetCreate() {
         sealFour: '',
         wire: '',
         wireName: '',
+        wireCount: wireCounter.toString(),
+        customer: '',
+        description: '',
+        notes: '',
+        locationWiresTwo: '',
+        locationWiresOne: '',
     });
 
     const heandleChange = (key: string, value: string) => {
@@ -68,8 +83,31 @@ export default function LeadsetCreate() {
         });
     };
 
-    const handleSubmit = () => {
-        console.log(data);
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        router.post(
+            '/leadsets',
+            {
+                ...data,
+                wireCount: Number(data.wireCount),
+            },
+            {
+                onSuccess: () => {
+                    alert('Leadset успешно создан');
+                },
+                onError: (errors) => {
+                    console.error('Ошибки валидации:', errors);
+                },
+            },
+        );
+    };
+
+    const errors = usePage().props.errors;
+
+    const resetForm = () => {
+        reset();
+        setEnter(false);
     };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -82,7 +120,7 @@ export default function LeadsetCreate() {
                             label="Номер полуфабриката"
                             value={data.leadsetNumber}
                             onChange={(e) => heandleChange('leadsetNumber', e.target.value)}
-                            className=""
+                            className="w-full"
                             requiredIs
                             disabled={enter}
                             id="leadsetNumber"
@@ -93,6 +131,7 @@ export default function LeadsetCreate() {
                             value={wireCounter.toString()}
                             onChange={(e) => {
                                 setWireCounter(Number(e));
+                                heandleChange('wireCount', e);
                             }}
                             options={[
                                 { value: '1', label: '1' },
@@ -125,9 +164,11 @@ export default function LeadsetCreate() {
                                 terminalFour={data.terminalFour}
                                 sealOne={data.sealOne}
                                 sealFour={data.sealFour}
+                                locationWiresTwo={data.locationWiresTwo}
+                                locationWiresOne={data.locationWiresOne}
                             />
                         ) : (
-                            ''
+                            <TwoWireLeadSet />
                         )}
                     </div>
                     <div className="mt-4 flex justify-center-safe space-x-4">
@@ -135,7 +176,7 @@ export default function LeadsetCreate() {
                             Подтвердить
                         </Button>
                         {enter && (
-                            <Button variant={'outline'} disabled={!enter} onClick={() => setEnter(false)}>
+                            <Button variant={'outline'} disabled={!enter} onClick={resetForm}>
                                 Сбросить
                             </Button>
                         )}
@@ -151,9 +192,25 @@ export default function LeadsetCreate() {
                                 onSubmit={handleSubmit}
                                 wire={data.wire}
                                 wireName={data.wireName}
+                                description={data.description}
+                                customer={data.customer}
+                                notes={data.notes}
+                                errors={errors}
                             />
                         ) : wireCounter === 2 ? (
-                            <></>
+                            <TwoWireForm
+                                terminalOne={data.terminalOne}
+                                terminalTwo={data.terminalTwo}
+                                terminalThree={data.terminalThree}
+                                sealOne={data.sealOne}
+                                sealThree={data.sealThree}
+                                setData={heandleChange}
+                                onSubmit={handleSubmit}
+                                description={data.description}
+                                customer={data.customer}
+                                errors={errors}
+                                locationWiresOne={data.locationWiresTwo}
+                            />
                         ) : (
                             <ThreeWireForm
                                 leadsetOne={data.leadsetOne}
@@ -167,6 +224,11 @@ export default function LeadsetCreate() {
                                 sealFour={data.sealFour}
                                 setData={heandleChange}
                                 onSubmit={handleSubmit}
+                                description={data.description}
+                                customer={data.customer}
+                                errors={errors}
+                                locationWiresTwo={data.locationWiresTwo}
+                                locationWiresOne={data.locationWiresOne}
                             />
                         ))}
                 </div>
