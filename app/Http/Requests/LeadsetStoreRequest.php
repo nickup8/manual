@@ -48,7 +48,7 @@ class LeadsetStoreRequest extends FormRequest
                 'terminalThree' => 'nullable|string|max:255|exists:terminals,part_number',
                 'sealOne' => 'nullable|string|max:255|exists:seals,part_number',
                 'sealThree' => 'nullable|string|max:255|exists:seals,part_number',
-                'locationWires' => 'required|string|max:255|in:inside,near',
+                'locationWiresOne' => 'required|string|max:255|in:inside,near',
             ]);
         } elseif ($wireCount == 3) {
             $rules = array_merge($rules, [
@@ -86,6 +86,18 @@ class LeadsetStoreRequest extends FormRequest
             'locationWiresOne.required' => 'Укажите расположение проводов 1 и 2',
             'locationWiresTwo.required' => 'Укажите расположение проводов 2 и 3',
             'customer.required' => 'Укажите заказчика',
+            'leadsetNumber.unique' => 'Полуфабрикат с номером :input уже существует',
+            'leadsetOne.exists' => 'Полуфабрикат :input не существует',
+            'leadsetTwo.exists' => 'Полуфабрикат :input не существует',
+            'leadsetThree.exists' => 'Полуфабрикат :input не существует',
+            'terminalOne.exists' => 'Терминал :input не существует',
+            'terminalTwo.exists' => 'Терминал :input не существует',
+            'terminalThree.exists' => 'Терминал :input не существует',
+            'terminalFour.exists' => 'Терминал :input не существует',
+            'sealOne.exists' => 'Уплотнитель :input не существует',
+            'sealTwo.exists' => 'Уплотнитель :input не существует',
+            'sealThree.exists' => 'Уплотнитель :input не существует',
+            'sealFour.exists' => 'Уплотнитель :input не существует',
         ];
     }
     public function attributes(): array

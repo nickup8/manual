@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LeadsetStoreRequest;
+use App\Http\Resources\WireResource;
+use App\Models\Wire;
+use Illuminate\Http\Request;
 
 class LeadsetController extends Controller
 {
@@ -11,9 +14,12 @@ class LeadsetController extends Controller
         return inertia('leadsets/leadset-index');
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return inertia('leadsets/leadset-create');
+        $wires = Wire::all();
+        return inertia('leadsets/leadset-create', [
+            'wires' => WireResource::collection($wires),
+        ]);
     }
 
     public function store(LeadsetStoreRequest $request) {

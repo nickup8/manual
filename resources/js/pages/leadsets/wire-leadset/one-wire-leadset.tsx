@@ -1,3 +1,5 @@
+import { Wire } from '@/types';
+
 interface Props {
     terminalOne: string;
     terminalTwo: string;
@@ -5,16 +7,17 @@ interface Props {
     sealTwo: string;
     wire: string;
     wireName: string;
+    wireRequired?: Wire;
 }
 
-export default function OneWireLeadset({ terminalOne, terminalTwo, sealOne, sealTwo, wire, wireName }: Props) {
+export default function OneWireLeadset({ terminalOne, terminalTwo, sealOne, sealTwo, wire, wireName, wireRequired }: Props) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="913" height="90" viewBox="0 0 913 60" fill="none">
             {terminalOne && <rect x="82" y="10" width="16" height="21" fill="#D9D9D9" />}
             {terminalTwo && <rect x="831" y="31.0001" width="16" height="21" transform="rotate(180 831 31.0001)" fill="#D9D9D9" />}
             <path d="M61 20L852 20.0001" stroke="#FFA600" strokeWidth="8" />
-            <path d="M85.5 20.5H828" stroke="black" strokeWidth="20" />
-            <path d="M85.5 20.5H828" stroke="white" strokeWidth="8" />
+            <path d="M85.5 20.5H828" stroke={wireRequired ? wireRequired.base_color.color_code : 'black'} strokeWidth="20" />
+            <path d="M85.5 20.5H828" stroke={wireRequired?.stripe_color ? wireRequired.stripe_color.color_code : ''} strokeWidth="8" />
             {wire && (
                 <text x="45%" y="55" fill="#7C7C7C" fontSize="16">
                     {wire}

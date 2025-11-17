@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Голубой',         'short' => 'Г', 'hex' => '#2CBCEB'],
             ['name' => 'Коричневый',      'short' => 'Кч', 'hex' => '#A52A2A'],
             ['name' => 'Зелёный',         'short' => 'З', 'hex' => '#008000'],
-            ['name' => 'Белый',           'short' => 'Б', 'hex' => '#FFFFFF'],
+            ['name' => 'Белый',           'short' => 'Б', 'hex' => '#EEEEEE'],
             ['name' => 'Фиолетовый',      'short' => 'Ф', 'hex' => '#800080'],
             ['name' => 'Серый',           'short' => 'С', 'hex' => '#808080'],
             ['name' => 'Розовый',         'short' => 'Р', 'hex' => '#FFC0CB'],

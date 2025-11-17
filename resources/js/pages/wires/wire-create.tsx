@@ -202,7 +202,7 @@ export default function WireCreate({
                 <div className="space-y-4">
                     <Heading title="Добавить провод" description="Введите данные о проводе" />
                     <form className="space-y-2" onSubmit={submit}>
-                        <div className="flex space-x-2">
+                        <div className="flex w-full space-x-2">
                             <FormField
                                 label="Код провода (YPN)"
                                 name="wire_code"
@@ -211,7 +211,7 @@ export default function WireCreate({
                                 onChange={handleInputChange('wire_code')}
                                 error={getErrorForField('wire_code')}
                                 requiredIs
-                                className={getErrorForField('wire_code') ? 'border-red-500' : ''}
+                                className={getErrorForField('wire_code') ? 'w-full border-red-500' : 'w-full'}
                             />
                             <div className="w-full">
                                 <SelectFields
@@ -236,7 +236,7 @@ export default function WireCreate({
                                 requiredIs
                                 error={getErrorForField('cross_section')}
                                 placeholder="Например: 1.5 или 2,5"
-                                className={getErrorForField('cross_section') ? 'border-red-500' : ''}
+                                className={getErrorForField('cross_section') ? 'w-full border-red-500' : 'w-full'}
                             />
                             <FormField
                                 label="Описание"
@@ -246,6 +246,7 @@ export default function WireCreate({
                                 onChange={handleInputChange('description')}
                                 error={getErrorForField('description')}
                                 placeholder="Необязательное описание"
+                                className="w-full"
                             />
                         </div>
                         <div className="flex space-x-2">

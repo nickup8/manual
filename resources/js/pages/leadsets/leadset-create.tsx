@@ -3,7 +3,7 @@ import Heading from '@/components/heading';
 import SelectFields from '@/components/select-fields';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, PropsResponse, Wire } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import OneWireForm from './wire-leadset/one-wire-form';
@@ -36,7 +36,7 @@ interface FormData {
     locationWiresOne: string;
 }
 
-export default function LeadsetCreate() {
+export default function LeadsetCreate({ wires }: { wires: PropsResponse<Wire> }) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Полуфабрикаты',
@@ -103,6 +103,10 @@ export default function LeadsetCreate() {
         );
     };
 
+    const wireRequest = wires.data.filter((wireReq: Wire) => wireReq.wire_code === data.wire);
+
+    console.log(wireRequest);
+
     const errors = usePage().props.errors;
 
     const resetForm = () => {
@@ -152,6 +156,7 @@ export default function LeadsetCreate() {
                                 sealTwo={data.sealTwo}
                                 wire={data.wire}
                                 wireName={data.wireName}
+                                wireRequired={wireRequest[0]}
                             />
                         ) : wireCounter === 3 ? (
                             <ThreeWireLeadset
@@ -168,7 +173,16 @@ export default function LeadsetCreate() {
                                 locationWiresOne={data.locationWiresOne}
                             />
                         ) : (
-                            <TwoWireLeadSet />
+                            <TwoWireLeadSet
+                                terminalOne={data.terminalOne}
+                                terminalTwo={data.terminalTwo}
+                                terminalThree={data.terminalThree}
+                                sealOne={data.sealOne}
+                                sealThree={data.sealThree}
+                                leadsetOne={data.leadsetOne}
+                                leadsetTwo={data.leadsetTwo}
+                                locationWiresOne={data.locationWiresOne}
+                            />
                         )}
                     </div>
                     <div className="mt-4 flex justify-center-safe space-x-4">
@@ -196,6 +210,7 @@ export default function LeadsetCreate() {
                                 customer={data.customer}
                                 notes={data.notes}
                                 errors={errors}
+                                wireRequired={wireRequest[0]}
                             />
                         ) : wireCounter === 2 ? (
                             <TwoWireForm
@@ -210,6 +225,9 @@ export default function LeadsetCreate() {
                                 customer={data.customer}
                                 errors={errors}
                                 locationWiresOne={data.locationWiresTwo}
+                                leadsetOne={data.leadsetOne}
+                                leadsetTwo={data.leadsetTwo}
+                                notes={data.notes}
                             />
                         ) : (
                             <ThreeWireForm

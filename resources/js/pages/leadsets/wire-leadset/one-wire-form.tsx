@@ -4,6 +4,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Wire } from '@/types';
 
 interface Errors {
     [key: string]: string;
@@ -22,6 +23,7 @@ interface Props {
     description: string;
     notes: string;
     errors: Errors;
+    wireRequired?: Wire;
 }
 
 export default function OneWireForm({
@@ -37,7 +39,13 @@ export default function OneWireForm({
     customer,
     notes,
     errors,
+    wireRequired,
 }: Props) {
+    const handleChange = (field: string, value: string) => {
+        setData(field, value);
+    };
+
+    console.log(wireRequired);
     return (
         <form className="flex flex-col space-y-4">
             <div className="flex w-full flex-col space-y-2">
@@ -50,7 +58,7 @@ export default function OneWireForm({
                             requiredIs
                             id="wire"
                             value={wire}
-                            onChange={(e) => setData('wire', e.target.value)}
+                            onChange={(e) => handleChange('wire', e.target.value)}
                             className="w-full"
                         />
                         <InputError message={errors.wire} />
@@ -79,7 +87,7 @@ export default function OneWireForm({
                             requiredIs
                             id="terminalOne"
                             value={terminalOne}
-                            onChange={(e) => setData('terminalOne', e.target.value)}
+                            onChange={(e) => handleChange('terminalOne', e.target.value)}
                             className="w-full"
                         />
                         <InputError message={errors.terminalOne} />
@@ -89,7 +97,7 @@ export default function OneWireForm({
                         label="Терминал 2"
                         id="terminalTwo"
                         value={terminalTwo}
-                        onChange={(e) => setData('terminalTwo', e.target.value)}
+                        onChange={(e) => handleChange('terminalTwo', e.target.value)}
                         className="w-full"
                     />
                 </div>
@@ -102,7 +110,7 @@ export default function OneWireForm({
                         label="Уплотнитель 1"
                         id="sealOne"
                         value={sealOne}
-                        onChange={(e) => setData('sealOne', e.target.value)}
+                        onChange={(e) => handleChange('sealOne', e.target.value)}
                         className="w-full"
                     />
                     <FormField
@@ -110,7 +118,7 @@ export default function OneWireForm({
                         label="Уплотнитель 2"
                         id="sealTwo"
                         value={sealTwo}
-                        onChange={(e) => setData('sealTwo', e.target.value)}
+                        onChange={(e) => handleChange('sealTwo', e.target.value)}
                         className="w-full"
                     />
                 </div>
