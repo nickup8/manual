@@ -2,19 +2,20 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, Leadset, PropsResponse } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { PlusCircle, Search } from 'lucide-react';
 import { useState } from 'react';
+import LeadsetTable from './leadset-table';
 
-export default function LeadsetIndex() {
+export default function LeadsetIndex({ leadsets }: { leadsets: PropsResponse<Leadset> }) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Полуфабрикаты',
             href: '/leadsets',
         },
     ];
-
+    console.log(leadsets);
     const [open, setOpen] = useState(false);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -38,6 +39,7 @@ export default function LeadsetIndex() {
                         {/* <SealFilter colors={seal_colors.data} setOpen={setOpen} /> */}
                     </Sheet>
                 </div>
+                <LeadsetTable data={leadsets.data} />
             </div>
         </AppLayout>
     );

@@ -1,0 +1,125 @@
+<?php
+
+namespace App\Services\Leadset;
+
+use App\Models\CrimpStandard;
+use App\Models\Leadset;
+use App\Models\LeadsetSeal;
+use App\Models\LeadsetTerminal;
+use App\Models\LeadsetWire;
+use App\Models\Seal;
+use App\Models\Terminal;
+use App\Models\Wire;
+use Illuminate\Support\Facades\DB;
+
+class LeadsetService
+{
+    public function storeOneLeadset(array $data): Leadset
+    {
+        return DB::transaction(function () use ($data) {
+            // Получаем сущности из базы
+            $wire = $this->getWire($data['wire']);
+            $terminalOne = $this->getTerminal($data['terminalOne']);
+
+            $terminalTwo = !empty($data['terminalTwo']) ? $this->getTerminal($data['terminalTwo']) : null;
+            $sealOne = !empty($data['sealOne']) ? $this->getSeal($data['sealOne']) : null;
+            $sealTwo = !empty($data['sealTwo']) ? $this->getSeal($data['sealTwo']) : null;
+
+            // Проверяем обязательные сущности
+            if (!$wire || !$terminalOne) {
+                throw new \Exception('Wire или Terminal 1 не найдены');
+            }
+
+            // Ищем кримп-стандарт
+            $crimpStandardOne = $this->getCrimpStandard($terminalOne, $sealOne, $wire, $data['customer']);
+
+            $crimpStandardTwo = null;
+
+            if ($terminalTwo)
+            {
+                $crimpStandardTwo = $this->getCrimpStandard($terminalTwo, $sealTwo, $wire, $data['customer']);
+            }
+
+            $status = $crimpStandardOne && (!$terminalTwo || $crimpStandardTwo) ? 'normal' : 'incomplete';
+
+            // Создаём Leadset
+            $leadset = Leadset::create([
+                'leadset_number' => $data['leadsetNumber'],
+                'description' => $data['description'] ?? null,
+                'customer' => $data['customer'],
+                'status' => $status,
+                'notes' => $data['notes'] ?? null,
+            ]);
+
+            // Создаём связи
+            $this->createLeadsetWire($leadset->id, $wire->id, $data['wireName']);
+            $this->createLeadsetTerminal($leadset->id, $terminalOne->id, 1);
+            if ($terminalTwo) {
+                $this->createLeadsetTerminal($leadset->id, $terminalTwo->id, 2);
+            }
+            if ($sealOne) {
+                $this->createLeadsetSeal($leadset->id, $sealOne->id);
+            }
+            if ($sealTwo) {
+                $this->createLeadsetSeal($leadset->id, $sealTwo->id);
+            }
+
+            return $leadset;
+        });
+    }
+
+    private function getWire(string $wireCode): ?Wire
+    {
+        return Wire::where('wire_code', $wireCode)->first();
+    }
+
+    private function getTerminal(string $partNumber): ?Terminal
+    {
+        return Terminal::where('part_number', $partNumber)->first();
+    }
+
+    private function getSeal(string $partNumber): ?Seal
+    {
+        return Seal::where('part_number', $partNumber)->first();
+    }
+
+    private function getCrimpStandard(Terminal $terminal, ?Seal $seal, Wire $wire, string $customer): ?CrimpStandard
+    {
+        $query = CrimpStandard::where('terminal_id', $terminal->id)
+            ->where('primary_wire_cross_section', $wire->cross_section)
+            ->where('primary_wire_type_id', $wire->wire_type_id)
+            ->where('customer', $customer);
+
+        if ($seal) {
+            $query->where('seal_id', $seal->id);
+        }
+
+        return $query->first();
+    }
+
+    private function createLeadsetWire(int $leadsetId, int $wireId, string $wireName): void
+    {
+        LeadsetWire::create([
+            'leadset_id' => $leadsetId,
+            'wire_id' => $wireId,
+            'wire_name' => $wireName,
+        ]);
+    }
+
+    private function createLeadsetTerminal(int $leadsetId, int $terminalId, int $position): void
+    {
+        LeadsetTerminal::create([
+            'leadset_id' => $leadsetId,
+            'terminal_id' => $terminalId,
+            'position' => $position,
+        ]);
+    }
+
+    private function createLeadsetSeal(int $leadsetId, int $sealId): void
+    {
+        LeadsetSeal::create([
+            'leadset_id' => $leadsetId,
+            'seal_id' => $sealId, // Исправлено: seal_id, а не terminal_id
+        ]);
+    }
+}

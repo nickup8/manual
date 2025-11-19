@@ -12,7 +12,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-    Route::resource('leadsets', LeadsetController::class);
+    
+    
 });
 
 
@@ -24,3 +25,4 @@ require __DIR__.'/terminal.php';
 require __DIR__.'/seal.php';
 require __DIR__.'/crimpStandards.php';
 require __DIR__.'/tool.php';
+require __DIR__.'/leadset.php';

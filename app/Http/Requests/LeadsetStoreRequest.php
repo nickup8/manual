@@ -30,16 +30,18 @@ class LeadsetStoreRequest extends FormRequest
             'customer' => 'required|string|max:255',
         ];
 
-        if ($wireCount == 1) {
+        if ($wireCount === 1) {
             $rules = array_merge($rules, [
-               'wire' => 'required|string|max:255, exists:wires,wire_code',
+               'wire' => 'required|string|max:255|exists:wires,wire_code',
                'wireName' => 'required|string|max:255|unique:leadset_wires,wire_name', 
                'terminalOne' => 'required|string|max:255|exists:terminals,part_number',
                'terminalTwo' => 'nullable|string|max:255|exists:terminals,part_number',
                'sealOne' => 'nullable|string|max:255|exists:seals,part_number',
                'sealTwo' => 'nullable|string|max:255|exists:seals,part_number',
+               'description' => 'nullable|string|max:255',
+               'notes' => 'nullable|string|max:255',
             ]);
-        } elseif ($wireCount == 2) {
+        } elseif ($wireCount === 2) {
             $rules = array_merge($rules, [
                 'leadsetOne' => 'required|string|max:255|exists:leadsets,leadset_number',
                 'leadsetTwo' => 'required|string|max:255|exists:leadsets,leadset_number',
@@ -50,7 +52,7 @@ class LeadsetStoreRequest extends FormRequest
                 'sealThree' => 'nullable|string|max:255|exists:seals,part_number',
                 'locationWiresOne' => 'required|string|max:255|in:inside,near',
             ]);
-        } elseif ($wireCount == 3) {
+        } elseif ($wireCount === 3) {
             $rules = array_merge($rules, [
                 'leadsetOne' => 'required|string|max:255|exists:leadsets,leadset_number',
                 'leadsetTwo' => 'required|string|max:255|exists:leadsets,leadset_number',
@@ -98,6 +100,7 @@ class LeadsetStoreRequest extends FormRequest
             'sealTwo.exists' => 'Уплотнитель :input не существует',
             'sealThree.exists' => 'Уплотнитель :input не существует',
             'sealFour.exists' => 'Уплотнитель :input не существует',
+            'wire.exists' => 'Провод :input не существует',
         ];
     }
     public function attributes(): array

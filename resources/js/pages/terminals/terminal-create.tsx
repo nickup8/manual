@@ -78,38 +78,44 @@ export default function TerminalCreate({ success, error }: { success: string | n
                 <Heading title="Создание терминала" description="Создайте новый терминал." />
                 <form onSubmit={submit}>
                     <div className="flex gap-2">
-                        <FormField
-                            label="Код терминала (YPN)"
-                            name="part_number"
-                            value={data.part_number}
-                            onChange={(e) => setData('part_number', e.target.value)}
-                            id="part_number"
-                            requiredIs
-                            error={errors?.part_number}
-                            className={errors?.part_number ? 'border-red-500' : ''}
-                        />
-                        <FormField
-                            label="Код поставщика (SPN)"
-                            name="supplier_part_number"
-                            value={data.supplier_part_number}
-                            onChange={(e) => setData('supplier_part_number', e.target.value)}
-                            id="supplier_part_number"
-                            requiredIs
-                            error={errors?.supplier_part_number}
-                            className={errors?.supplier_part_number ? 'border-red-500' : ''}
-                        />
-                        <FormField
-                            label="Название поставщика"
-                            name="supplier_name"
-                            value={data.supplier_name}
-                            onChange={(e) => setData('supplier_name', e.target.value)}
-                            id="supplier_name"
-                            requiredIs
-                            error={errors?.supplier_name}
-                            className={errors?.supplier_name ? 'border-red-500' : ''}
-                        />
+                        <div className="w-full">
+                            <FormField
+                                label="Код терминала (YPN)"
+                                name="part_number"
+                                value={data.part_number}
+                                onChange={(e) => setData('part_number', e.target.value)}
+                                id="part_number"
+                                requiredIs
+                                error={errors?.part_number}
+                                className={errors?.part_number ? 'border-red-500' : ''}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <FormField
+                                label="Код поставщика (SPN)"
+                                name="supplier_part_number"
+                                value={data.supplier_part_number}
+                                onChange={(e) => setData('supplier_part_number', e.target.value)}
+                                id="supplier_part_number"
+                                requiredIs
+                                error={errors?.supplier_part_number}
+                                className={errors?.supplier_part_number ? 'border-red-500' : ''}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <FormField
+                                label="Название поставщика"
+                                name="supplier_name"
+                                value={data.supplier_name}
+                                onChange={(e) => setData('supplier_name', e.target.value)}
+                                id="supplier_name"
+                                requiredIs
+                                error={errors?.supplier_name}
+                                className={errors?.supplier_name ? 'border-red-500' : ''}
+                            />
+                        </div>
                     </div>
-                    <div>
+                    <div className="w-full">
                         <FormField
                             label="Описание"
                             name="description"

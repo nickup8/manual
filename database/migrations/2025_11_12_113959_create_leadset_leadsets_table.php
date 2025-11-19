@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('leadset_id')->constrained('leadsets')->onDelete('cascade');
             $table->foreignId('leadset_2_id')->constrained('leadsets')->onDelete('cascade');
             $table->timestamps();
-            $table->unique(['leadset_id', 'leadset_2_id']);
+            $table->integer('position');
+            $table->unique(['leadset_id', 'leadset_2_id', 'position']);
         });
     }
 

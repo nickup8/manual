@@ -20,7 +20,7 @@ export default function OneWireLeadset({ terminalOne, terminalTwo, sealOne, seal
             <path d="M85.5 20.5H828" stroke={wireRequired?.stripe_color ? wireRequired.stripe_color.color_code : ''} strokeWidth="8" />
             {wire && (
                 <text x="45%" y="55" fill="#7C7C7C" fontSize="16">
-                    {wire}
+                    {wire.toUpperCase()}
                 </text>
             )}
             {wireName && (

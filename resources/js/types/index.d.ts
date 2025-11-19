@@ -187,3 +187,13 @@ export interface Tool {
     created_at: string;
     updated_at: string;
 }
+
+export interface Leadset {
+    id: number;
+    leadsetName: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+    terminals: Terminal[];
+    seals: Seal[];
+}

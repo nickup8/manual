@@ -105,22 +105,29 @@ export default function OneWireForm({
             <div className="flex w-full flex-col space-y-2">
                 <HeadingSmall title="Уплотнители" />
                 <div className="flex space-x-2">
-                    <FormField
-                        name="sealOne"
-                        label="Уплотнитель 1"
-                        id="sealOne"
-                        value={sealOne}
-                        onChange={(e) => handleChange('sealOne', e.target.value)}
-                        className="w-full"
-                    />
-                    <FormField
-                        name="sealTwo"
-                        label="Уплотнитель 2"
-                        id="sealTwo"
-                        value={sealTwo}
-                        onChange={(e) => handleChange('sealTwo', e.target.value)}
-                        className="w-full"
-                    />
+                    <div className="w-full">
+                        <FormField
+                            name="sealOne"
+                            label="Уплотнитель 1"
+                            id="sealOne"
+                            value={sealOne}
+                            onChange={(e) => handleChange('sealOne', e.target.value)}
+                            className="w-full"
+                        />
+                        <InputError message={errors.sealOne} />
+                    </div>
+
+                    <div className="w-full">
+                        <FormField
+                            name="sealTwo"
+                            label="Уплотнитель 2"
+                            id="sealTwo"
+                            value={sealTwo}
+                            onChange={(e) => handleChange('sealTwo', e.target.value)}
+                            className="w-full"
+                        />
+                        <InputError message={errors.sealTwo} />
+                    </div>
                 </div>
             </div>
             <div>

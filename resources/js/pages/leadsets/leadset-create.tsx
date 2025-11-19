@@ -1,4 +1,3 @@
-import FormField from '@/components/form-field';
 import Heading from '@/components/heading';
 import SelectFields from '@/components/select-fields';
 import { Button } from '@/components/ui/button';
@@ -6,12 +5,6 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, PropsResponse, Wire } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import OneWireForm from './wire-leadset/one-wire-form';
-import OneWireLeadset from './wire-leadset/one-wire-leadset';
-import ThreeWireForm from './wire-leadset/three-wire-form';
-import ThreeWireLeadset from './wire-leadset/three-wire-leadset';
-import TwoWireForm from './wire-leadset/two-wire-form';
-import TwoWireLeadSet from './wire-leadset/two-wire-leadset';
 
 interface FormData {
     leadsetNumber: string;
@@ -90,6 +83,8 @@ export default function LeadsetCreate({ wires }: { wires: PropsResponse<Wire> })
             '/leadsets',
             {
                 ...data,
+                customer: data.customer.toUpperCase(),
+                wire: data.wire.toUpperCase(),
                 wireCount: Number(data.wireCount),
             },
             {
@@ -113,12 +108,38 @@ export default function LeadsetCreate({ wires }: { wires: PropsResponse<Wire> })
         reset();
         setEnter(false);
     };
+
+    const viewLeadsetOptions = [
+        { value: '1', label: 'Одиночный провод' },
+        { value: '2', label: 'Марьяж' },
+        { value: '3', label: 'Двойной марьяж' },
+    ];
+
+    const handleContinue = () => {
+        let route = '';
+
+        switch (wireCounter) {
+            case 1:
+                route = '/leadsets/create/leadset-create-one'; // или route('leadsets.create.one')
+                break;
+            case 2:
+                route = '/leadsets/create/leadset-create-two'; // или route('leadsets.create.two')
+                break;
+            case 3:
+                route = '/leadsets/create/leadset-create-three'; // или route('leadsets.create.three')
+                break;
+            default:
+                return;
+        }
+
+        router.visit(route);
+    };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Создание полуфабриката" />
             <div className="px-4 py-6">
                 <Heading title="Создание полуфабриката" />
-                <div className="mt-8">
+                {/* <div className="mt-8">
                     <div className="flex space-x-4">
                         <FormField
                             label="Номер полуфабриката"
@@ -249,6 +270,24 @@ export default function LeadsetCreate({ wires }: { wires: PropsResponse<Wire> })
                                 locationWiresOne={data.locationWiresOne}
                             />
                         ))}
+                </div> */}
+                <div>
+                    <div className="mt-8">
+                        <SelectFields
+                            label="Выберите вид полуфабриката"
+                            value={wireCounter.toString()}
+                            onChange={(e) => {
+                                setWireCounter(Number(e));
+                                heandleChange('wireCount', e);
+                            }}
+                            options={viewLeadsetOptions}
+                            className="w-full"
+                            required={false}
+                        />
+                        <div className="mt-4">
+                            <Button onClick={handleContinue}>Продолжить</Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </AppLayout>
