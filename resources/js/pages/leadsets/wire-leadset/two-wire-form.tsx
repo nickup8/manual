@@ -25,6 +25,8 @@ interface TwoWireFormProps {
     errors: Errors;
     locationWiresOne: string;
     notes: string;
+    disabledTerminalOne: boolean;
+    disabledTerminalThree: boolean;
 }
 
 export default function TwoWireForm({
@@ -42,6 +44,8 @@ export default function TwoWireForm({
     leadsetOne,
     leadsetTwo,
     notes,
+    disabledTerminalOne,
+    disabledTerminalThree,
 }: TwoWireFormProps) {
     const locationWiresOption = [
         {
@@ -106,6 +110,7 @@ export default function TwoWireForm({
                             value={terminalOne}
                             id="terminalOne"
                             className="w-full"
+                            disabled={disabledTerminalOne}
                         />
                         <InputError message={errors.terminalOne} />
                     </div>
@@ -129,6 +134,7 @@ export default function TwoWireForm({
                             value={terminalThree}
                             id="terminalThree"
                             className="w-full"
+                            disabled={disabledTerminalThree}
                         />
                         <InputError message={errors.terminalThree} />
                     </div>
@@ -191,7 +197,9 @@ export default function TwoWireForm({
                 <Textarea className="mt-1" id="notes" name="notes" onChange={(e) => setData('notes', e.target.value)} value={notes} />
             </div>
             <div className="flex space-x-2">
-                <Button type="submit">Сохранить</Button>
+                <Button type="submit" disabled={!!errors.leadsetOne || !!errors.leadsetTwo}>
+                    Сохранить
+                </Button>
             </div>
         </form>
     );

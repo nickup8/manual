@@ -23,7 +23,12 @@ class LeadsetResource extends JsonResource
             'notes' => $this->notes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'wires' => $this->whenLoaded('wires', fn() => WireResource::collection($this->wires), []),
+            'wires' => $this->whenLoaded('wires', fn() => $this->wires->map(function ($lt) {
+                return [
+                    'wireName' => $lt->wire_name,
+                    'wire' => new WireResource($lt->wire), // 💡 Включаем полную информацию о терминале
+                ];
+            }), []),
             'terminals' => $this->whenLoaded('terminals', fn() => $this->terminals->map(function ($lt) {
                 return [
                     'position' => $lt->position,

@@ -1,14 +1,14 @@
 import FormField from '@/components/form-field';
 import Heading from '@/components/heading';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, PropsResponse, Wire } from '@/types';
+import { BreadcrumbItem, PropsResponse, Seal, Wire } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import OneWireForm from './wire-leadset/one-wire-form';
 import OneWireLeadset from './wire-leadset/one-wire-leadset';
 
-export default function LeadsetCreateOne({ wires, success }: { wires: PropsResponse<Wire>; success: string }) {
+export default function LeadsetCreateOne({ wires, seals, success }: { wires: PropsResponse<Wire>; success: string; seals: PropsResponse<Seal> }) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Полуфабрикаты',
@@ -43,11 +43,17 @@ export default function LeadsetCreateOne({ wires, success }: { wires: PropsRespo
         notes: '',
         description: '',
         customer: '',
+        stripeLengthOne: '',
+        stripeLengthTwo: '',
     });
 
     const errors = usePage().props.errors as any;
 
-    const wireRequest = wires.data.filter((wireReq: Wire) => wireReq.wire_code === data.wire);
+    const wireRequest = wires.data.filter((wireReq: Wire) => wireReq.wire_code.toLowerCase() === data.wire.toLowerCase());
+
+    const sealFilter = (sealNumber: string) => {
+        return seals.data.filter((seal: Seal) => seal.part_number === sealNumber);
+    };
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,6 +61,8 @@ export default function LeadsetCreateOne({ wires, success }: { wires: PropsRespo
             '/leadsets/create/leadset-create-one',
             {
                 ...data,
+                stripeLengthOne: Number(data.stripeLengthOne.trim().replace(',', '.')),
+                stripeLengthTwo: Number(data.stripeLengthTwo.trim().replace(',', '.')),
                 customer: data.customer.toUpperCase(),
                 wire: data.wire.toUpperCase(),
                 wireCount: Number(data.wireCount),
@@ -94,9 +102,11 @@ export default function LeadsetCreateOne({ wires, success }: { wires: PropsRespo
                         wireName={data.wireName}
                         terminalOne={data.terminalOne}
                         terminalTwo={data.terminalTwo}
-                        sealOne={data.sealOne}
-                        sealTwo={data.sealTwo}
+                        sealOne={sealFilter(data.sealOne)[0]}
+                        sealTwo={sealFilter(data.sealTwo)[0]}
                         wireRequired={wireRequest[0]}
+                        stripeLengthOne={data.stripeLengthOne}
+                        stripeLengthTwo={data.stripeLengthTwo}
                     />
                 </div>
                 <div className="mt-4">
@@ -113,7 +123,8 @@ export default function LeadsetCreateOne({ wires, success }: { wires: PropsRespo
                         sealTwo={data.sealTwo}
                         errors={errors}
                         onSubmit={submit}
-                        wireRequired={wireRequest[0]}
+                        stripeLengthOne={data.stripeLengthOne}
+                        stripeLengthTwo={data.stripeLengthTwo}
                     />
                 </div>
             </div>

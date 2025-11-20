@@ -13,6 +13,7 @@ class Leadset extends Model
         'customer',
         'status',
         'notes'
+        
     ];
 
     // Связь с проводами

@@ -76,6 +76,8 @@ export default function WireTypeCreate({ success }: { success: string | null }) 
                                 name="type_name"
                                 onChange={(e) => setData('type_name', e.target.value)}
                                 value={data.type_name}
+                                className="w-full"
+                                requiredIs
                             />
                             <FormField
                                 label="Код типа провода"
@@ -83,6 +85,8 @@ export default function WireTypeCreate({ success }: { success: string | null }) 
                                 name="type_code"
                                 onChange={(e) => setData('type_code', e.target.value)}
                                 value={data.type_code}
+                                className="w-full"
+                                requiredIs
                             />
                         </div>
                         <div className="flex space-x-2">

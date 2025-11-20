@@ -23,6 +23,8 @@ interface Props {
     description: string;
     notes: string;
     errors: Errors;
+    stripeLengthOne: string;
+    stripeLengthTwo: string;
     wireRequired?: Wire;
 }
 
@@ -39,13 +41,13 @@ export default function OneWireForm({
     customer,
     notes,
     errors,
-    wireRequired,
+    stripeLengthOne,
+    stripeLengthTwo,
 }: Props) {
     const handleChange = (field: string, value: string) => {
         setData(field, value);
     };
 
-    console.log(wireRequired);
     return (
         <form className="flex flex-col space-y-4">
             <div className="flex w-full flex-col space-y-2">
@@ -92,14 +94,41 @@ export default function OneWireForm({
                         />
                         <InputError message={errors.terminalOne} />
                     </div>
-                    <FormField
-                        name="terminalTwo"
-                        label="Терминал 2"
-                        id="terminalTwo"
-                        value={terminalTwo}
-                        onChange={(e) => handleChange('terminalTwo', e.target.value)}
-                        className="w-full"
-                    />
+                    <div className="w-full">
+                        <FormField
+                            name="stripeLengthOne"
+                            label="Длина зачистки 1"
+                            id="stripeLengthOne"
+                            value={stripeLengthOne}
+                            onChange={(e) => setData('stripeLengthOne', e.target.value)}
+                            className="w-full"
+                            requiredIs
+                        />
+                        <InputError message={errors.stripeLengthOne} />
+                    </div>
+                    <div className="w-full">
+                        <FormField
+                            name="terminalTwo"
+                            label="Терминал 2"
+                            id="terminalTwo"
+                            value={terminalTwo}
+                            onChange={(e) => handleChange('terminalTwo', e.target.value)}
+                            className="w-full"
+                        />
+                        <InputError message={errors.terminalTwo} />
+                    </div>
+                    <div className="w-full">
+                        <FormField
+                            name="stripeLengthTwo"
+                            label="Длина зачистки 2"
+                            id="stripeLengthTwo"
+                            value={stripeLengthTwo}
+                            onChange={(e) => setData('stripeLengthTwo', e.target.value)}
+                            className="w-full"
+                            requiredIs
+                        />
+                        <InputError message={errors.stripeLengthTwo} />
+                    </div>
                 </div>
             </div>
             <div className="flex w-full flex-col space-y-2">

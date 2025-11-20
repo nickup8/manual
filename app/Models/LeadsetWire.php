@@ -11,7 +11,9 @@ class LeadsetWire extends Model
         'leadset_id',
         'wire_id', 
         'wire_name',
-        'position'
+        'position',
+        'stripe_length_one',
+        'stripe_length_two',
     ];
 
     public function leadset(): BelongsTo

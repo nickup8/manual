@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LeadsetStoreRequest;
-use App\Http\Resources\Leadsetresource;
+use App\Http\Resources\LeadsetResource;
+use App\Http\Resources\SealResource;
 use App\Http\Resources\WireResource;
 use App\Models\Leadset;
+use App\Models\Seal;
 use App\Models\Wire;
 use App\Services\Leadset\LeadsetService;
 use Illuminate\Http\Request;
@@ -35,8 +37,10 @@ class LeadsetController extends Controller
 
     public function createOneLeadset()
     {   $wires = Wire::all();
+        $seals = Seal::all();
         return inertia('leadsets/leadset-create-one', [
             'wires' => WireResource::collection($wires),
+            'seals' => SealResource::collection($seals),
             'success' => session('success'),
         ]);
     }
@@ -52,5 +56,17 @@ class LeadsetController extends Controller
 
         return back()->with('success', "Провод {$leadset->leadset_number} успешно создан со статусом {$leadset->status}");
 
+    }
+
+    public function createTwoLeadset()
+    {
+        $leadsets = Leadset::with(['wires', 'terminals.terminal', 'seals'])->get();;
+        return inertia('leadsets/leadset-create-two', [
+            'leadsets' => LeadsetResource::collection($leadsets),
+        ]);
+    }
+
+    public function storeTwoLeadset() {
+        //
     }
 }

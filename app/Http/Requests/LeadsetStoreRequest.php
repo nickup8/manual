@@ -33,7 +33,9 @@ class LeadsetStoreRequest extends FormRequest
         if ($wireCount === 1) {
             $rules = array_merge($rules, [
                'wire' => 'required|string|max:255|exists:wires,wire_code',
-               'wireName' => 'required|string|max:255|unique:leadset_wires,wire_name', 
+               'wireName' => 'required|string|max:255|unique:leadset_wires,wire_name',
+               'stripeLengthOne' => 'required|numeric|min:0|max:255',
+               'stripeLengthTwo' => 'required|numeric|min:0|max:255',
                'terminalOne' => 'required|string|max:255|exists:terminals,part_number',
                'terminalTwo' => 'nullable|string|max:255|exists:terminals,part_number',
                'sealOne' => 'nullable|string|max:255|exists:seals,part_number',

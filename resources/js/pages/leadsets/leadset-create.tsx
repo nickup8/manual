@@ -100,8 +100,6 @@ export default function LeadsetCreate({ wires }: { wires: PropsResponse<Wire> })
 
     const wireRequest = wires.data.filter((wireReq: Wire) => wireReq.wire_code === data.wire);
 
-    console.log(wireRequest);
-
     const errors = usePage().props.errors;
 
     const resetForm = () => {

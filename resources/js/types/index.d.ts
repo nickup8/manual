@@ -190,10 +190,16 @@ export interface Tool {
 
 export interface Leadset {
     id: number;
-    leadsetName: string;
+    leadsetNumber: string;
     description: string;
     created_at: string;
     updated_at: string;
-    terminals: Terminal[];
+    terminals: {
+        terminal: Terminal;
+    }[];
     seals: Seal[];
+    wires: {
+        wire: Wire;
+        wireName: string;
+    }[];
 }

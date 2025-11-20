@@ -1,21 +1,36 @@
-import { Wire } from '@/types';
+import { Seal, Wire } from '@/types';
 
 interface Props {
     terminalOne: string;
     terminalTwo: string;
-    sealOne: string;
-    sealTwo: string;
+    sealOne: Seal;
+    sealTwo: Seal;
     wire: string;
     wireName: string;
+    stripeLengthOne: string;
+    stripeLengthTwo: string;
     wireRequired?: Wire;
 }
 
-export default function OneWireLeadset({ terminalOne, terminalTwo, sealOne, sealTwo, wire, wireName, wireRequired }: Props) {
+export default function OneWireLeadset({
+    terminalOne,
+    terminalTwo,
+    sealOne,
+    sealTwo,
+    wire,
+    wireName,
+    stripeLengthOne,
+    stripeLengthTwo,
+    wireRequired,
+}: Props) {
+    console.log(sealOne);
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="913" height="90" viewBox="0 0 913 60" fill="none">
             {terminalOne && <rect x="82" y="10" width="16" height="21" fill="#D9D9D9" />}
             {terminalTwo && <rect x="831" y="31.0001" width="16" height="21" transform="rotate(180 831 31.0001)" fill="#D9D9D9" />}
-            <path d="M61 20L852 20.0001" stroke="#FFA600" strokeWidth="8" />
+            {stripeLengthOne && <path d="M61 20L600 20.0001" stroke="#FFA600" strokeWidth="8" />}
+            {stripeLengthTwo && <path d="M600 20L852 20.0001" stroke="#FFA600" strokeWidth="8" />}
+
             <path d="M85.5 20.5H828" stroke={wireRequired ? wireRequired.base_color.color_code : 'black'} strokeWidth="20" />
             <path d="M85.5 20.5H828" stroke={wireRequired?.stripe_color ? wireRequired.stripe_color.color_code : ''} strokeWidth="8" />
             {wire && (
@@ -32,10 +47,10 @@ export default function OneWireLeadset({ terminalOne, terminalTwo, sealOne, seal
                 <g>
                     <path
                         d="M114 5C114.552 5 115 5.44777 115 6V35C115 35.5523 114.552 36 114 36H110C109.448 36 109 35.5523 109 35V33H108V34C108 34.5523 107.552 35 107 35H106C105.448 35 105 34.5523 105 34V32H88V9H105V7C105 6.44777 105.448 6 106 6H107C107.552 6 108 6.44777 108 7V8H109V6C109 5.44777 109.448 5 110 5H114Z"
-                        fill="#333333"
+                        fill={sealOne.color.color_code}
                     />
                     <text x="80 " y="-2" fill="#7C7C7C" fontSize="16">
-                        {sealOne}
+                        {sealOne.part_number}
                     </text>
                 </g>
             )}
@@ -43,10 +58,10 @@ export default function OneWireLeadset({ terminalOne, terminalTwo, sealOne, seal
                 <g>
                     <path
                         d="M800 36C799.448 36 799 35.5522 799 35L799 6C799 5.44772 799.448 5 800 5L804 5C804.552 5 805 5.44772 805 6L805 8L806 8L806 7C806 6.44772 806.448 6 807 6L808 6C808.552 6 809 6.44772 809 7L809 9L826 9L826 32L809 32L809 34C809 34.5522 808.552 35 808 35L807 35C806.448 35 806 34.5522 806 34L806 33L805 33L805 35C805 35.5522 804.552 36 804 36L800 36Z"
-                        fill="#333333"
+                        fill={sealTwo.color.color_code}
                     />
                     <text x="750 " y="-2" fill="#7C7C7C" fontSize="16">
-                        {sealTwo}
+                        {sealTwo.part_number}
                     </text>
                 </g>
             )}

@@ -52,16 +52,16 @@ class LeadsetService
             ]);
 
             // Создаём связи
-            $this->createLeadsetWire($leadset->id, $wire->id, $data['wireName']);
+            $this->createLeadsetWire($leadset->id, $wire->id, $data['wireName'], 1, $data['stripeLengthOne'], $data['stripeLengthTwo']);
             $this->createLeadsetTerminal($leadset->id, $terminalOne->id, 1);
             if ($terminalTwo) {
                 $this->createLeadsetTerminal($leadset->id, $terminalTwo->id, 2);
             }
             if ($sealOne) {
-                $this->createLeadsetSeal($leadset->id, $sealOne->id);
+                $this->createLeadsetSeal($leadset->id, $sealOne->id, 1);
             }
             if ($sealTwo) {
-                $this->createLeadsetSeal($leadset->id, $sealTwo->id);
+                $this->createLeadsetSeal($leadset->id, $sealTwo->id, 2);
             }
 
             return $leadset;
@@ -97,12 +97,15 @@ class LeadsetService
         return $query->first();
     }
 
-    private function createLeadsetWire(int $leadsetId, int $wireId, string $wireName): void
+    private function createLeadsetWire(int $leadsetId, int $wireId, string $wireName, int $position, int $stripeLengthOne, int $stripeLengthTwo ): void
     {
         LeadsetWire::create([
             'leadset_id' => $leadsetId,
             'wire_id' => $wireId,
             'wire_name' => $wireName,
+            'position' => $position,
+            'stripe_length_one' => $stripeLengthOne,
+            'stripe_length_two' => $stripeLengthTwo,
         ]);
     }
 
@@ -115,11 +118,17 @@ class LeadsetService
         ]);
     }
 
-    private function createLeadsetSeal(int $leadsetId, int $sealId): void
+    private function createLeadsetSeal(int $leadsetId, int $sealId, int $position): void
     {
         LeadsetSeal::create([
             'leadset_id' => $leadsetId,
             'seal_id' => $sealId, // Исправлено: seal_id, а не terminal_id
+            'position' => $position,
         ]);
+    }
+
+    public function storeTwoLeadsets(array $data)
+    {
+        //
     }
 }

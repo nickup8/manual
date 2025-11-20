@@ -15,7 +15,7 @@ export default function LeadsetIndex({ leadsets }: { leadsets: PropsResponse<Lea
             href: '/leadsets',
         },
     ];
-    console.log(leadsets);
+
     const [open, setOpen] = useState(false);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

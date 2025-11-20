@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('leadset_id')->constrained('leadsets')->onDelete('cascade');
             $table->foreignId('wire_id')->constrained('wires')->onDelete('cascade');
             $table->string('wire_name')->unique();
+            $table->decimal('stripe_length_one', 5, 2);
+            $table->decimal('stripe_length_two', 5, 2);
+            $table->integer('position');
             $table->unique('leadset_id');
             $table->timestamps();
             

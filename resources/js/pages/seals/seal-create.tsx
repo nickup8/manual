@@ -92,6 +92,7 @@ export default function SealCreate({ seal_colors, success }: { seal_colors: Prop
                             error={errors.part_number}
                             placeholder="Код уплотнителя"
                             id="part_number"
+                            className="w-full"
                         />
                         <FormField
                             label="Код поставщика"
@@ -102,6 +103,7 @@ export default function SealCreate({ seal_colors, success }: { seal_colors: Prop
                             error={errors.supplier_part_number}
                             placeholder="Код поставщика"
                             id="supplier_part_number"
+                            className="w-full"
                         />
                         <FormField
                             label="Название поставщика"
@@ -112,6 +114,7 @@ export default function SealCreate({ seal_colors, success }: { seal_colors: Prop
                             error={errors.supplier_name}
                             placeholder="Название поставщика"
                             id="supplier_name"
+                            className="w-full"
                         />
                     </div>
                     <div className="flex space-x-2">
@@ -147,6 +150,7 @@ export default function SealCreate({ seal_colors, success }: { seal_colors: Prop
                             error={errors.description}
                             placeholder="Описание"
                             id="description"
+                            className="w-full"
                         />
                     </div>
 
