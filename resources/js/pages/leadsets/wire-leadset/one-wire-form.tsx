@@ -175,11 +175,12 @@ export default function OneWireForm({
                     <div className="w-full">
                         <FormField
                             name="customer"
-                            label="Заказчик"
+                            label="Клиент"
                             id="customer"
                             value={customer}
                             onChange={(e) => setData('customer', e.target.value)}
                             className="w-full"
+                            requiredIs
                         />
                         <InputError message={errors.customer} />
                     </div>

@@ -66,7 +66,10 @@ class LeadsetController extends Controller
         ]);
     }
 
-    public function storeTwoLeadset() {
-        //
+    public function storeTwoLeadset(LeadsetStoreRequest $request) {
+        
+        $leadset = $this->leadsetService->storeTwoLeadsets($request->validated());
+
+        return back()->with('success', "Провод {$leadset->leadset_number} успешно создан со статусом {$leadset->status}");
     }
 }

@@ -8,4 +8,6 @@ Route::middleware('auth')->group(function () {
     Route::post('leadsets/create/leadset-create-one', [LeadsetController::class, 'storeOneLeadset'])->name('leadset.store.one');
     Route::get('leadsets/create/leadset-create-two', [LeadsetController::class, 'createTwoLeadset'])->name('leadset.create.two');
     Route::get('leadsets/create/leadset-create-three', [LeadsetController::class, 'createThreeLeadset'])->name('leadset.create.three');
+    Route::post('leadsets/create/leadset-create-two', [LeadsetController::class, 'storeTwoLeadset'])->name('leadset.store.two');
+    Route::post('leadsets/create/leadset-create-three', [LeadsetController::class, 'storeThreeLeadset'])->name('leadset.store.three');
 });

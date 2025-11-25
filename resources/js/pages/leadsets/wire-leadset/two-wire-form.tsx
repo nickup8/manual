@@ -197,9 +197,7 @@ export default function TwoWireForm({
                 <Textarea className="mt-1" id="notes" name="notes" onChange={(e) => setData('notes', e.target.value)} value={notes} />
             </div>
             <div className="flex space-x-2">
-                <Button type="submit" disabled={!!errors.leadsetOne || !!errors.leadsetTwo}>
-                    Сохранить
-                </Button>
+                <Button type="submit">Сохранить</Button>
             </div>
         </form>
     );

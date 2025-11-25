@@ -45,18 +45,8 @@ export default function TwoWireLeadSet({
                     />
                 </>
             )}
-            {leadsetOne && (
-                <>
-                    <path d="M85.5 20.5H828" stroke={leadsetOne.wires[0].wire.base_color.color_code} strokeWidth="20" />
-                </>
-            )}
-            {leadsetTwo && (
-                <path
-                    d="M828 20.5C665.5 20.5 599.5 109.5 442.5 129.53C285.5 149.561 217.5 230.5 85.5 230.5"
-                    stroke={leadsetTwo.wires[0].wire.base_color.color_code}
-                    strokeWidth="20"
-                />
-            )}
+
+            <path d="M85.5 20.5H828" stroke={leadsetOne ? leadsetOne.wires[0].wire.base_color.color_code : 'black'} strokeWidth="20" />
             {leadsetOne && (
                 <>
                     <path
@@ -69,6 +59,12 @@ export default function TwoWireLeadSet({
                     </text>
                 </>
             )}
+            <path
+                d="M828 20.5C665.5 20.5 599.5 109.5 442.5 129.53C285.5 149.561 217.5 230.5 85.5 230.5"
+                stroke={leadsetTwo ? leadsetTwo.wires[0].wire.base_color.color_code : 'black'}
+                strokeWidth="20"
+            />
+
             {leadsetTwo && (
                 <>
                     <path

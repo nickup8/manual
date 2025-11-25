@@ -2,7 +2,7 @@ import FormField from '@/components/form-field';
 import Heading from '@/components/heading';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, Leadset, PropsResponse } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import TwoWireForm from './wire-leadset/two-wire-form';
@@ -90,7 +90,7 @@ export default function LeadsetCreateTwo({ leadsets }: { leadsets: PropsResponse
                     setDisabledTerminalThree(true);
                     setCustomErrors((prev) => ({
                         ...prev,
-                        leadsetOne: '',
+                        leadsetTwo: '',
                     }));
                 }
             }
@@ -98,6 +98,19 @@ export default function LeadsetCreateTwo({ leadsets }: { leadsets: PropsResponse
     }, [data.leadsetTwo, setData, leadsets.data]);
 
     const allErrors = { ...errors, ...customErrors };
+
+    const submit = (e: React.FormEvent) => {
+        e.preventDefault();
+        router.post(
+            '/leadsets/create/leadset-create-two',
+            { ...data },
+            {
+                onSuccess: () => {
+                    (reset(), toast.success('Leadset успешно создан'));
+                },
+            },
+        );
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -144,7 +157,7 @@ export default function LeadsetCreateTwo({ leadsets }: { leadsets: PropsResponse
                         description={data.description}
                         errors={allErrors}
                         setData={setData}
-                        onSubmit={() => {}}
+                        onSubmit={submit}
                         disabledTerminalOne={disabledTerminalOne}
                         disabledTerminalThree={disabledTerminalThree}
                     />

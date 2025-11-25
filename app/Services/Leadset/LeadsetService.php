@@ -4,6 +4,7 @@ namespace App\Services\Leadset;
 
 use App\Models\CrimpStandard;
 use App\Models\Leadset;
+use App\Models\LeadsetLeadset;
 use App\Models\LeadsetSeal;
 use App\Models\LeadsetTerminal;
 use App\Models\LeadsetWire;
@@ -127,8 +128,42 @@ class LeadsetService
         ]);
     }
 
-    public function storeTwoLeadsets(array $data)
+    public function storeTwoLeadsets(array $data): Leadset
     {
-        //
+        $leadsetOne = $this->getLeadset($data['leadsetOne']);
+        $leadsetTwo = $this->getLeadset($data['leadsetTwo']);
+        
+        $terminal = $this->getTerminal($data['terminalTwo']);
+        
+        $leadset = Leadset::create([
+            'leadset_number' => $data['leadsetNumber'],
+            'description' => $data['description'] ?? null,
+            'customer' => $data['customer'],
+            'status' => 'incomplete',
+            'notes' => $data['notes'] ?? null,
+        ]);
+
+        $this->createLeadsetLeadset($leadset->id, $leadsetOne->id, 1);
+        $this->createLeadsetLeadset($leadset->id, $leadsetTwo->id, 2);
+        $this->createLeadsetTerminal($leadset->id, $terminal->id, 2);
+
+        return $leadset;
+
     }
+
+    private function getLeadset(string $leadsetNumber): ?Leadset
+    {
+        return Leadset::where('leadset_number', $leadsetNumber)->first();
+    }
+
+    private function createLeadsetLeadset(int $leadsetOneId, int $leadsetTwoId, int $position): void
+    {
+        LeadsetLeadset::create([
+            'leadset_id' => $leadsetOneId,
+            'leadset_2_id' => $leadsetTwoId,
+            'position' => $position,
+        ]);
+    }
+
+    
 }
