@@ -1,10 +1,10 @@
 import { LOCATION_WIRES } from '@/lib/constants';
-import { LocationWires } from '@/types';
+import { Leadset, LocationWires } from '@/types';
 
 interface ThreeWireLeadsetProps {
-    leadsetOne: string;
-    leadsetTwo: string;
-    leadsetThree: string;
+    leadsetOne: Leadset;
+    leadsetTwo: Leadset;
+    leadsetThree: Leadset;
     terminalOne: string;
     terminalTwo: string;
     terminalThree: string;
@@ -29,6 +29,10 @@ export default function ThreeWireLeadset({
     function isLocationWires(value: string): value is LocationWires {
         return value === 'inside' || value === 'near';
     }
+
+    terminalOne = leadsetOne ? leadsetOne.terminals[0].terminal.part_number : '';
+    terminalFour = leadsetThree ? leadsetThree.terminals[0].terminal.part_number : '';
+
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="913" height="280" viewBox="0 0 913 250" fill="none">
             {terminalFour && (
@@ -61,15 +65,37 @@ export default function ThreeWireLeadset({
             <text x="778 " y="-2" fill="#7C7C7C" fontSize="16">
                 {isLocationWires(locationWiresOne) ? LOCATION_WIRES[locationWiresOne] : ''}
             </text>
-            <path d="M85.5 20.5H828" stroke="black" strokeWidth="20" />
-            <path d="M85.5 230.5C166 230.5 828 230.5 828 230.5H85.5Z" stroke="black" strokeWidth="20" />
-            <path d="M85.5 230.5C166 230.5 828 230.5 828 230.5H85.5Z" stroke="white" strokeWidth="8" />
+            <path d="M85.5 20.5H828" stroke={leadsetOne?.wires?.[0]?.wire?.base_color?.color_code || 'black'} strokeWidth="20" />
+            <path
+                d="M85.5 230.5C166 230.5 828 230.5 828 230.5H85.5Z"
+                stroke={leadsetThree?.wires?.[0]?.wire?.base_color?.color_code || 'black'}
+                strokeWidth="20"
+            />
+            {leadsetThree && (
+                <>
+                    <path
+                        d="M85.5 230.5C166 230.5 828 230.5 828 230.5H85.5Z"
+                        stroke={leadsetThree?.wires?.[0]?.wire?.stripe_color ? leadsetThree.wires[0].wire.stripe_color.color_code : ''}
+                        strokeWidth="8"
+                    />
+                </>
+            )}
             <text x="90" y="260" fill="#7C7C7C" fontSize="16">
                 {isLocationWires(locationWiresTwo) ? LOCATION_WIRES[locationWiresTwo] : ''}
             </text>
-            <path d="M85.5 20.5H828" stroke="#f5f5f5" strokeWidth="8" />
-            <path d="M828 20.5C665.5 20.5 599.5 109.5 442.5 129.53C285.5 149.561 217.5 230.5 85.5 230.5" stroke="green" strokeWidth="20" /> /// 111
-            <path d="M828 20.5C665.5 20.5 599.5 109.5 442.5 129.53C285.5 149.561 217.5 230.5 85.5 230.5" stroke="#FF3F3F" strokeWidth="8" />
+            {leadsetOne && <path d="M85.5 20.5H828" stroke={leadsetOne?.wires?.[0]?.wire?.stripe_color?.color_code || ''} strokeWidth="8" />}
+            <path
+                d="M828 20.5C665.5 20.5 599.5 109.5 442.5 129.53C285.5 149.561 217.5 230.5 85.5 230.5"
+                stroke={leadsetTwo?.wires?.[0]?.wire?.base_color?.color_code || 'black'}
+                strokeWidth="20"
+            />
+            {leadsetTwo && (
+                <path
+                    d="M828 20.5C665.5 20.5 599.5 109.5 442.5 129.53C285.5 149.561 217.5 230.5 85.5 230.5"
+                    stroke={leadsetTwo?.wires?.[0]?.wire?.stripe_color?.color_code || ''}
+                    strokeWidth="8"
+                />
+            )}
             {terminalOne && (
                 <g>
                     <title>Контакт 1</title>

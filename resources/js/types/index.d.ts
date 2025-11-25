@@ -202,4 +202,5 @@ export interface Leadset {
         wire: Wire;
         wireName: string;
     }[];
+    relatedLeadsets: Leadset[];
 }

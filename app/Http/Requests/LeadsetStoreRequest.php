@@ -36,7 +36,7 @@ class LeadsetStoreRequest extends FormRequest
                'wireName' => 'required|string|max:255|unique:leadset_wires,wire_name',
                'stripeLengthOne' => 'required|numeric|min:0|max:255',
                'stripeLengthTwo' => 'required|numeric|min:0|max:255',
-               'terminalOne' => 'required|string|max:255|exists:terminals,part_number',
+               'terminalOne' => 'nullable|string|max:255|exists:terminals,part_number',
                'terminalTwo' => 'nullable|string|max:255|exists:terminals,part_number',
                'sealOne' => 'nullable|string|max:255|exists:seals,part_number',
                'sealTwo' => 'nullable|string|max:255|exists:seals,part_number',

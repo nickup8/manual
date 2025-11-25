@@ -21,7 +21,7 @@ class LeadsetController extends Controller
 
     public function index()
     {
-        $leadsets = Leadset::with(['wires', 'terminals.terminal', 'seals'])->get();
+        $leadsets = Leadset::with(['wires', 'terminals.terminal', 'seals', 'relatedLeadsets'])->get();
     return inertia('leadsets/leadset-index', [
         'leadsets' => LeadsetResource::collection($leadsets),
     ]);
@@ -60,7 +60,7 @@ class LeadsetController extends Controller
 
     public function createTwoLeadset()
     {
-        $leadsets = Leadset::with(['wires', 'terminals.terminal', 'seals'])->get();;
+        $leadsets = Leadset::with(['wires', 'terminals.terminal', 'seals', 'relatedLeadsets'])->get();;
         return inertia('leadsets/leadset-create-two', [
             'leadsets' => LeadsetResource::collection($leadsets),
         ]);
@@ -69,6 +69,23 @@ class LeadsetController extends Controller
     public function storeTwoLeadset(LeadsetStoreRequest $request) {
         
         $leadset = $this->leadsetService->storeTwoLeadsets($request->validated());
+
+        return back()->with('success', "Провод {$leadset->leadset_number} успешно создан со статусом {$leadset->status}");
+    }
+
+    public function createThreeLeadset() {
+
+        $leadsets = Leadset::with(['wires', 'terminals.terminal', 'seals', 'relatedLeadsets'])->get();;
+        return inertia('leadsets/leadset-create-three', [
+            'leadsets' => LeadsetResource::collection($leadsets),
+        ]);
+    }
+
+    public function storeThreeLeadset(LeadsetStoreRequest $request) {
+
+        dd($request->all());
+        
+        $leadset = $this->leadsetService->storeThreeLeadsets($request->validated());
 
         return back()->with('success', "Провод {$leadset->leadset_number} успешно создан со статусом {$leadset->status}");
     }

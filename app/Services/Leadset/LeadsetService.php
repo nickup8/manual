@@ -20,19 +20,25 @@ class LeadsetService
         return DB::transaction(function () use ($data) {
             // Получаем сущности из базы
             $wire = $this->getWire($data['wire']);
-            $terminalOne = $this->getTerminal($data['terminalOne']);
-
+            $terminalOne = !empty($data['terminalOne']) ? $this->getTerminal($data['terminalOne']) : null;
             $terminalTwo = !empty($data['terminalTwo']) ? $this->getTerminal($data['terminalTwo']) : null;
             $sealOne = !empty($data['sealOne']) ? $this->getSeal($data['sealOne']) : null;
             $sealTwo = !empty($data['sealTwo']) ? $this->getSeal($data['sealTwo']) : null;
 
             // Проверяем обязательные сущности
-            if (!$wire || !$terminalOne) {
-                throw new \Exception('Wire или Terminal 1 не найдены');
+            if (!$wire) {
+                throw new \Exception('Wire не найдены');
             }
 
+
+
             // Ищем кримп-стандарт
-            $crimpStandardOne = $this->getCrimpStandard($terminalOne, $sealOne, $wire, $data['customer']);
+            $crimpStandardOne = null;
+
+            if ($terminalOne)
+            {
+                $crimpStandardOne = $this->getCrimpStandard($terminalOne, $sealOne, $wire, $data['customer']);
+            }
 
             $crimpStandardTwo = null;
 
@@ -54,7 +60,9 @@ class LeadsetService
 
             // Создаём связи
             $this->createLeadsetWire($leadset->id, $wire->id, $data['wireName'], 1, $data['stripeLengthOne'], $data['stripeLengthTwo']);
-            $this->createLeadsetTerminal($leadset->id, $terminalOne->id, 1);
+            if($terminalOne) {
+                $this->createLeadsetTerminal($leadset->id, $terminalOne->id, 1);
+            }
             if ($terminalTwo) {
                 $this->createLeadsetTerminal($leadset->id, $terminalTwo->id, 2);
             }
@@ -146,6 +154,7 @@ class LeadsetService
         $this->createLeadsetLeadset($leadset->id, $leadsetOne->id, 1);
         $this->createLeadsetLeadset($leadset->id, $leadsetTwo->id, 2);
         $this->createLeadsetTerminal($leadset->id, $terminal->id, 2);
+        
 
         return $leadset;
 

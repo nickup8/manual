@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Leadset extends Model
@@ -50,5 +51,10 @@ class Leadset extends Model
     public function terminalsWithPosition()
     {
         return $this->hasMany(LeadsetTerminal::class)->with('terminal');
+    }
+
+    public function relatedLeadsets(): BelongsToMany
+    {
+        return $this->belongsToMany(Leadset::class, 'leadset_leadsets', 'leadset_id', 'leadset_2_id');
     }
 }

@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
-import { Head, router, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
@@ -15,15 +15,20 @@ interface LoginProps {
     canResetPassword: boolean;
 }
 
+interface FormData {
+    login: string;
+    password: string;
+}
+
 export default function Login({ status, canResetPassword }: LoginProps) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm<FormData>({
         login: '',
         password: '',
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        router.post('/login', { ...data, remember: true });
+        post('/login', data as any);
     };
 
     return (
