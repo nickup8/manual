@@ -29,4 +29,14 @@ class SealStoreRequest extends FormRequest
             'color' => ['required', 'string', 'max:255', 'exists:color_seals,id'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'part_number.required' => 'Введите YPN уплотнителя',
+            'supplier_part_number.required' => 'Введите код поставщика',
+            'supplier_name.required' => 'Введите название поставщика',
+            'color.required' => 'Выберите цвет уплотнителя',
+        ];
+    }
 }

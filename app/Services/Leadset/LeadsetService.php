@@ -47,7 +47,7 @@ class LeadsetService
                 $crimpStandardTwo = $this->getCrimpStandard($terminalTwo, $sealTwo, $wire, $data['customer']);
             }
 
-            $status = $crimpStandardOne && (!$terminalTwo || $crimpStandardTwo) ? 'normal' : 'incomplete';
+            $status = (!$terminalOne || $crimpStandardOne) && (!$terminalTwo || $crimpStandardTwo) ? 'normal' : 'incomplete';
 
             // Создаём Leadset
             $leadset = Leadset::create([
@@ -172,6 +172,37 @@ class LeadsetService
             'leadset_2_id' => $leadsetTwoId,
             'position' => $position,
         ]);
+    }
+
+    public function storeThreeLeadsets(array $data): Leadset
+    {
+        $leadsetOne = $this->getLeadset($data['leadsetOne']);
+        $leadsetTwo = $this->getLeadset($data['leadsetTwo']);
+        $leadsetThree = $this->getLeadset($data['leadsetThree']);
+
+        $leadset = Leadset::create([
+            'leadset_number' => $data['leadsetNumber'],
+            'description' => $data['description'] ?? null,
+            'customer' => $data['customer'],
+            'status' => 'incomplete',
+            'notes' => $data['notes'] ?? null,
+        ]);
+
+        $terminalTwo = $this->getTerminal($data['terminalTwo']);
+
+        $this->createLeadsetTerminal($leadset->id, $terminalTwo->id, 2);
+
+        $terminalThree = $this->getTerminal($data['terminalThree']);
+
+        $this->createLeadsetTerminal($leadset->id, $terminalThree->id, 3);
+
+        $this->createLeadsetLeadset($leadset->id, $leadsetOne->id, 1);
+        $this->createLeadsetLeadset($leadset->id, $leadsetTwo->id, 2);
+        $this->createLeadsetLeadset($leadset->id, $leadsetThree->id, 3);
+
+        return $leadset;
+
+
     }
 
     

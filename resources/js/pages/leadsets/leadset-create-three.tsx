@@ -11,6 +11,7 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, Leadset, PropsResponse } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 import ThreeWireLeadset from './wire-leadset/three-wire-leadset';
 
 interface FormData {
@@ -32,14 +33,14 @@ interface FormData {
     sealFour: string;
 }
 
-export default function LeadSetCreateThree({ leadsets }: { leadsets: PropsResponse<Leadset> }) {
+export default function LeadSetCreateThree({ leadsets, success }: { leadsets: PropsResponse<Leadset>; success: string }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Полуфабрикаты', href: '/leadsets' },
         { title: 'Создание полуфабриката', href: '/leadsets/create' },
         { title: 'Создание двойного марьяжа', href: '/leadsets/create/leadset-create-three' },
     ];
 
-    const { data, setData, errors, processing, setError, transform, submit } = useForm<FormData>({
+    const { data, setData, errors, processing, setError, transform, submit, reset } = useForm<FormData>({
         wireCount: 3,
         leadsetNumber: '',
         leadsetOne: '',
@@ -116,6 +117,12 @@ export default function LeadSetCreateThree({ leadsets }: { leadsets: PropsRespon
         validateLeadset(data.leadsetThree, 'leadsetThree');
     }, [data.leadsetThree]);
 
+    useEffect(() => {
+        if (success) {
+            toast.success(success);
+        }
+    }, [success]);
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         transform((data) => ({
@@ -127,7 +134,7 @@ export default function LeadSetCreateThree({ leadsets }: { leadsets: PropsRespon
             leadsetThree: data.leadsetThree.toUpperCase(),
         }));
 
-        submit(storeThreeLeadset());
+        submit(storeThreeLeadset(), { onSuccess: () => reset() });
     };
 
     return (

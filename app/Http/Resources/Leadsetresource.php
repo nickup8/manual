@@ -37,6 +37,7 @@ class LeadsetResource extends JsonResource
             }), []),
             'seals' => $this->whenLoaded('seals', fn() => SealResource::collection($this->seals), []),
             'relatedLeadsets' => $this->whenLoaded('relatedLeadsets', fn() => LeadsetResource::collection($this->relatedLeadsets), []),
+            
         ];
     }
 }

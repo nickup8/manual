@@ -26,7 +26,7 @@ class LeadsetStoreRequest extends FormRequest
         
         $rules = [
             'wireCount' => 'required|integer|min:1|max:3',
-            'leadsetNumber' => 'required|string|max:255|unique:leadsets,leadset_number',
+            'leadsetNumber' => 'required|string|max:255|unique:leadsets,leadset_number|regex:/^S\d{9}$/',
             'customer' => 'required|string|max:255',
         ];
 
@@ -103,6 +103,7 @@ class LeadsetStoreRequest extends FormRequest
             'sealThree.exists' => 'Уплотнитель :input не существует',
             'sealFour.exists' => 'Уплотнитель :input не существует',
             'wire.exists' => 'Провод :input не существует',
+            'leadsetNumber.regex' => 'Номер полуфабриката должен быть в формате S000000000',
         ];
     }
     public function attributes(): array

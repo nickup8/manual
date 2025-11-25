@@ -99,8 +99,16 @@ export default function ToolCreate({ wireTypes, success }: { wireTypes: PropsRes
                             value={data.terminal}
                             onChange={(e) => setData('terminal', e.target.value)}
                             error={errors.terminal}
+                            className="w-full"
                         />
-                        <FormField label="Уплотнитель" name="seal" id="seal" value={data.seal} onChange={(e) => setData('seal', e.target.value)} />
+                        <FormField
+                            label="Уплотнитель"
+                            name="seal"
+                            id="seal"
+                            value={data.seal}
+                            onChange={(e) => setData('seal', e.target.value)}
+                            className="w-full"
+                        />
                     </div>
                     <div className="flex space-x-2">
                         <SelectFields
@@ -128,6 +136,7 @@ export default function ToolCreate({ wireTypes, success }: { wireTypes: PropsRes
                             onChange={(e) => setData('location', e.target.value)}
                             requiredIs
                             error={errors.location}
+                            className="w-full"
                         />
                         <FormField
                             label="Заказчик"
@@ -137,6 +146,7 @@ export default function ToolCreate({ wireTypes, success }: { wireTypes: PropsRes
                             onChange={(e) => setData('customer', e.target.value)}
                             requiredIs
                             error={errors.customer}
+                            className="w-full"
                         />
                     </div>
                     <div className="flex space-x-2">

@@ -78,12 +78,13 @@ class LeadsetController extends Controller
         $leadsets = Leadset::with(['wires', 'terminals.terminal', 'seals', 'relatedLeadsets'])->get();;
         return inertia('leadsets/leadset-create-three', [
             'leadsets' => LeadsetResource::collection($leadsets),
+            'success' => session('success'),
         ]);
     }
 
     public function storeThreeLeadset(LeadsetStoreRequest $request) {
 
-        dd($request->all());
+        
         
         $leadset = $this->leadsetService->storeThreeLeadsets($request->validated());
 
