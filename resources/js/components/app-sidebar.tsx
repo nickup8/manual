@@ -17,41 +17,49 @@ const mainNavItems: NavItem[] = [
         title: 'Полуфабрикаты',
         href: '/leadsets',
         icon: GitMerge,
+        permission: 'view-leadset',
     },
     {
         title: 'Провода',
         href: '/wires',
         icon: GitCommitHorizontal,
+        permission: 'view-wire',
     },
     {
         title: 'Терминалы',
         href: '/terminals',
         icon: Cable,
+        permission: 'view-terminal',
     },
     {
         title: 'Уплотнители',
         href: '/seals',
         icon: CircleDot,
+        permission: 'view-seal',
     },
     {
         title: 'Параметры обжима',
         href: '/crimping',
         icon: Diameter,
+        permission: 'view-crimping',
     },
     {
         title: 'Аппликаторы',
         href: '/applicators',
         icon: Hammer,
+        permission: 'view-tool',
     },
     {
         title: 'Контроль качества',
         href: '/quality',
         icon: ShieldCheck,
+        permission: 'view-quality',
     },
     {
         title: 'Пользователи',
         href: '/users',
         icon: Users,
+        permission: 'view-user',
     },
 ];
 

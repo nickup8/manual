@@ -35,6 +35,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ])->assignRole(['technical', 'user_manager']);
 
+        User::create([
+            'name' => 'Иван',
+            'last_name' => 'Иванов',
+            'login' => '0001',
+            'password' => bcrypt('password'),
+
+        ])->assignRole('operator');
+
         $wire_colors = [
             ['name' => 'Черный',          'short' => 'Ч', 'hex' => '#000000'],
             ['name' => 'Красный',         'short' => 'К', 'hex' => '#FF0000'],

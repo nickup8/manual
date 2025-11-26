@@ -1,14 +1,22 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { useAuth } from '@/hooks/use-auth';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
+
+    const { permissions } = useAuth();
+    const filteredItems = items.filter((item) => {
+        if (!item.permission) return true; // Если нет разрешения — показываем
+        return permissions.includes(item.permission); // Иначе проверяем право
+    });
+
     return (
         <SidebarGroup className="px-2 py-0">
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
-                {items.map((item) => (
+                {filteredItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
                             asChild

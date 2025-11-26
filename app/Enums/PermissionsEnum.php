@@ -33,6 +33,17 @@ enum PermissionsEnum: string
     case EDIT_WIRE = 'edit-wire';
     case VIEW_WIRE = 'view-wire';
     case DELETE_WIRE = 'delete-wire';
+    
+    // аппликаторы
+    case CREATE_TOOL = 'create-tool';
+    case EDIT_TOOL = 'edit-tool';
+    case VIEW_TOOL = 'view-tool';
+    case DELETE_TOOL = 'delete-tool';
+
+    // Права на просмотр всех данных
+
+    case VIEW_ALL = 'view-all';
+
 
     // Метод для получения русского названия
     public function label(): string
@@ -62,6 +73,13 @@ enum PermissionsEnum: string
             self::EDIT_WIRE => 'Редактирование провода',
             self::VIEW_WIRE => 'Просмотр провода',
             self::DELETE_WIRE => 'Удаление провода',
+
+            self::VIEW_ALL => 'Просмотр всех данных',
+
+            self::CREATE_TOOL => 'Создание аппликатора',
+            self::EDIT_TOOL => 'Редактирование аппликатора',
+            self::VIEW_TOOL => 'Просмотр аппликатора',
+            self::DELETE_TOOL => 'Удаление аппликатора',
         };
     }
 

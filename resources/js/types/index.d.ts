@@ -20,6 +20,7 @@ export interface NavItem {
     href: NonNullable<InertiaLinkProps['href']>;
     icon?: LucideIcon | ComponentType<SVGProps<SVGSVGElement>> | null;
     isActive?: boolean;
+    permission?: string;
 }
 
 export interface SharedData {
@@ -35,10 +36,6 @@ export interface Role {
     label: string;
 }
 
-export interface Permission {
-    name: string;
-}
-
 export interface User {
     id: number;
     name: string;
@@ -46,8 +43,8 @@ export interface User {
     avatar?: string;
     created_at: string;
     updated_at: string;
-    role: Role[];
-    permission: Permission[];
+    roles: Role[];
+    permissions: string[];
     [key: string]: unknown;
     // This allows for additional properties...
 }

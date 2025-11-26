@@ -10,7 +10,7 @@ export const useAuth = () => {
     const roles = auth?.user.roles || [];
 
     const can = (permissionName: string) => {
-        return permissions.some((p) => p.name === permissionName);
+        return permissions.some((p) => p === permissionName);
     };
 
     const hasRole = (roleName: string) => {

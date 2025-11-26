@@ -12,12 +12,15 @@ class PermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        // Очистка таблиц
+        // Очистка кэша разрешений
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Создаём все разрешения из enum
+        // Создаём все разрешения из enum (если не существуют)
         foreach (PermissionsEnum::cases() as $permission) {
-            Permission::create(['name' => $permission->value]);
+            Permission::firstOrCreate(
+                ['name' => $permission->value],
+                ['name' => $permission->value]
+            );
         }
 
         // Создаём роли и назначаем им разрешения
@@ -32,10 +35,10 @@ class PermissionSeeder extends Seeder
                 PermissionsEnum::VIEW_SEAL->value,
                 PermissionsEnum::CREATE_WIRE->value,
                 PermissionsEnum::VIEW_WIRE->value,
+                
             ],
             RolesEnum::OPERATOR->value => [
                 PermissionsEnum::VIEW_LEADSET->value,
-                PermissionsEnum::CREATE_LEADSET->value,
             ],
             RolesEnum::QUALITY->value => [
                 PermissionsEnum::VIEW_LEADSET->value,
@@ -50,8 +53,8 @@ class PermissionSeeder extends Seeder
         ];
 
         foreach ($roles as $roleName => $permissions) {
-            $role = Role::create(['name' => $roleName]);
-            $role->givePermissionTo($permissions);
+            $role = Role::firstOrCreate(['name' => $roleName]);
+            $role->syncPermissions($permissions); // syncPermissions обновит список разрешений
         }
     }
 }
