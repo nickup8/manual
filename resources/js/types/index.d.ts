@@ -30,6 +30,15 @@ export interface SharedData {
     [key: string]: unknown;
 }
 
+export interface Role {
+    name: string;
+    label: string;
+}
+
+export interface Permission {
+    name: string;
+}
+
 export interface User {
     id: number;
     name: string;
@@ -37,7 +46,10 @@ export interface User {
     avatar?: string;
     created_at: string;
     updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+    role: Role[];
+    permission: Permission[];
+    [key: string]: unknown;
+    // This allows for additional properties...
 }
 
 export interface WireType {

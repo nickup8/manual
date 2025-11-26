@@ -2,11 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Enums\PermissionsEnum;
+use App\Enums\RolesEnum;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\WireColor;
 use DB;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +19,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call([
+            PermissionSeeder::class,
+        ]);
+
+        
+
         // User::factory(10)->create();
 
         User::create([
@@ -22,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Сироткин',
             'login' => '4500',
             'password' => bcrypt('password'),
-        ]);
+        ])->assignRole(['technical', 'user_manager']);
 
         $wire_colors = [
             ['name' => 'Черный',          'short' => 'Ч', 'hex' => '#000000'],
