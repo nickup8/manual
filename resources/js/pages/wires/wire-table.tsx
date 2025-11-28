@@ -1,8 +1,15 @@
 import { DataTable } from '@/components/data-table';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/hooks/use-auth';
 import { Wire } from '@/types';
+import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
+import { EllipsisVertical } from 'lucide-react';
 
 export default function WireTable({ wires }: { wires: Wire[] }) {
+    const { permissions } = useAuth();
+
     const column: ColumnDef<Wire>[] = [
         {
             accessorKey: 'wire_code',
@@ -47,6 +54,30 @@ export default function WireTable({ wires }: { wires: Wire[] }) {
                     return '-';
                 }
             },
+        },
+        {
+            id: 'actions',
+            cell: ({ row }) => (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                            <EllipsisVertical />
+                            <span className="sr-only">Open menu</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-32">
+                        {permissions.includes('edit-wire') && (
+                            <DropdownMenuItem asChild>
+                                <Link href={`/wires/${row.original.id}/edit`}>Редактировать</Link>
+                            </DropdownMenuItem>
+                        )}
+                        {/* <DropdownMenuItem>Копировать</DropdownMenuItem> */}
+
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem variant="destructive">Удалить</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            ),
         },
     ];
 

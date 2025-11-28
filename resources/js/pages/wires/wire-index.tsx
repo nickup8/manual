@@ -3,6 +3,7 @@ import HeadingSmall from '@/components/heading-small';
 import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { useAuth } from '@/hooks/use-auth';
 import AppLayout from '@/layouts/app-layout';
 import WireLayout from '@/layouts/wires-leyout';
 import { getWireActiveFilters } from '@/lib/utils';
@@ -48,6 +49,8 @@ export default function WireIndex({
 
     const [open, setOpen] = useState(false);
 
+    const { permissions } = useAuth();
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Провода" />
@@ -56,12 +59,14 @@ export default function WireIndex({
                     <HeadingSmall title="Провода" description="Создавайте, удаляйте и редактируйте провода для полуфабрикатов" />
                     <div className="flex flex-col space-y-6">
                         <div className="w-full space-x-4">
-                            <Button asChild>
-                                <Link href="/wires/create">
-                                    <PlusCircle className="h-4 w-4" />
-                                    Добавить провод
-                                </Link>
-                            </Button>
+                            {permissions.includes('create-wire') && (
+                                <Button asChild>
+                                    <Link href="/wires/create">
+                                        <PlusCircle className="h-4 w-4" />
+                                        Добавить провод
+                                    </Link>
+                                </Button>
+                            )}
                             <Sheet open={open} onOpenChange={setOpen}>
                                 <SheetTrigger asChild>
                                     <Button variant="outline" className="cursor-pointer">

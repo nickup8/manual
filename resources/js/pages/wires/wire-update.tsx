@@ -1,13 +1,12 @@
 import Heading from '@/components/heading';
 import AppLayout from '@/layouts/app-layout';
 import WireLayout from '@/layouts/wires-leyout';
-import { BreadcrumbItem, PropsResponse, WireColor, WireType } from '@/types';
-import { Head, router, useForm } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { update } from '@/routes/wires';
+import { BreadcrumbItem, PropsResponse, Wire, WireColor, WireType } from '@/types';
+import { Head, useForm } from '@inertiajs/react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import WireForm from './wire-form';
-
-type FormFieldsProps = 'wire_code' | 'wire_type_id' | 'cross_section' | 'description' | 'base_color_id' | 'stripe_color_id';
 
 interface WireData {
     wire_code: string;
@@ -28,50 +27,30 @@ interface ServerErrors {
     [key: string]: string | undefined;
 }
 
-export default function WireCreate({
-    wire_types,
-    wire_colors,
-    success,
-    errors: serverErrors = {}, // Ошибки с сервера из пропсов
-}: {
-    wire_types: PropsResponse<WireType>;
-    wire_colors: WireColor[];
-    success: string | null;
-    errors?: ServerErrors; // Ошибки валидации с сервера
-}) {
+type FormFieldsProps = 'wire_code' | 'wire_type_id' | 'cross_section' | 'description' | 'base_color_id' | 'stripe_color_id';
+export default function WireUpdate({ wire, wire_types, wire_colors }: { wire: Wire; wire_types: PropsResponse<WireType>; wire_colors: WireColor[] }) {
+    console.log(wire_types);
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Провода',
             href: '/wires',
         },
         {
-            title: 'Добавить провод',
-            href: '/wires/create',
+            title: `Редактирование провода ${wire.wire_code}`,
+            href: `/wires/${wire.id}/edit`,
         },
     ];
 
-    const { data, setData, reset } = useForm<WireData>({
-        wire_code: '',
-        wire_type_id: '',
-        cross_section: '',
-        description: '',
-        base_color_id: '',
-        stripe_color_id: '',
-    });
-
-    const [processing, setProcessing] = useState(false);
     const [clientErrors, setClientErrors] = useState<ServerErrors>({});
 
-    useEffect(() => {
-        if (success) {
-            toast.success(success);
-        }
-    }, [success]);
-
-    // Очищаем ошибки при изменении данных
-    useEffect(() => {
-        setClientErrors({});
-    }, [data]);
+    const { data, setData, put, processing, errors, reset, setError, submit } = useForm({
+        wire_code: wire.wire_code,
+        wire_type_id: wire.wire_type.id.toString(),
+        cross_section: wire.cross_section.toString(),
+        description: wire.description ? wire.description : '',
+        base_color_id: wire.base_color.id.toString(),
+        stripe_color_id: wire.stripe_color ? wire.stripe_color.id.toString() : '',
+    });
 
     const handleInputChange = (field: FormFieldsProps) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setData(field, e.target.value);
@@ -138,13 +117,15 @@ export default function WireCreate({
         return Object.keys(errors).length === 0;
     };
 
-    const submit = async (e: React.FormEvent) => {
+    const getErrorForField = (field: FormFieldsProps): string | undefined => {
+        return clientErrors[field] || errors[field];
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setProcessing(true);
 
         // Клиентская валидация
         if (!validateForm()) {
-            setProcessing(false);
             toast.error('Проверьте правильность заполнения формы');
             return;
         }
@@ -161,7 +142,7 @@ export default function WireCreate({
             };
 
             // Отправка через router.post
-            await router.post('/wires', transformData, {
+            await submit(update(wire.id), {
                 onSuccess: () => {
                     reset();
                 },
@@ -176,35 +157,27 @@ export default function WireCreate({
             console.error('Ошибка при отправке формы:', error);
             toast.error('Произошла непредвиденная ошибка');
         } finally {
-            setProcessing(false);
         }
-    };
-
-    // Объединяем ошибки: сначала клиентские, потом серверные
-    const getErrorForField = (field: FormFieldsProps): string | undefined => {
-        return clientErrors[field] || serverErrors[field];
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Добавить провод" />
+            <Head title={`Редактирование провода ${wire.wire_code}`} />
             <WireLayout>
-                <div className="space-y-4">
-                    <Heading title="Добавить провод" description="Введите данные о проводе" />
-                    <WireForm
-                        wire_types={wire_types}
-                        submit={submit}
-                        processing={processing}
-                        handleInputChange={handleInputChange}
-                        handleSelectChange={handleSelectChange}
-                        data={data}
-                        getErrorForField={getErrorForField}
-                        wire_colors={wire_colors}
-                        reset={reset}
-                        setClientErrors={setClientErrors}
-                        buttonName="Добавить провод"
-                    />
-                </div>
+                <Heading title={'Редактирование провода ' + wire.wire_code} />
+                <WireForm
+                    wire_types={wire_types}
+                    submit={handleSubmit}
+                    processing={processing}
+                    handleInputChange={handleInputChange}
+                    handleSelectChange={handleSelectChange}
+                    data={data}
+                    getErrorForField={getErrorForField}
+                    wire_colors={wire_colors}
+                    reset={reset}
+                    setClientErrors={setClientErrors}
+                    buttonName="Сохранить"
+                />
             </WireLayout>
         </AppLayout>
     );

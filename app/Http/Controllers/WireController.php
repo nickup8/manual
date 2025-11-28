@@ -86,4 +86,21 @@ class WireController extends Controller
             return back()->withErrors($e->errors());
         }
     }
+
+
+    public function edit(Wire $wire) {
+
+        $wire_types = WireType::all();
+        $wire_colors = WireColor::all();
+        return inertia('wires/wire-update', [
+            'wire' => new WireResource($wire),
+            'wire_types' => WireTypeResource::collection($wire_types),
+            'wire_colors' => $wire_colors,
+        ]);
+    }
+
+    public function update(Wire $wire, WireStoreRequest $request) {
+        return $this->wireService->updateWire($wire, $request->validated());
+    }
+
 }

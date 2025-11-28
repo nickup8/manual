@@ -40,6 +40,15 @@ enum PermissionsEnum: string
     case VIEW_TOOL = 'view-tool';
     case DELETE_TOOL = 'delete-tool';
 
+    // Права на параметры обжима
+
+    case VIEW_CRIMPING = 'view-crimping';
+    case EDIT_CRIMPING = 'edit-crimping';
+
+    case CREATE_CRIMPING = 'create-crimping';
+
+    case DELETE_CRIMPING = 'delete-crimping';
+
     // Права на просмотр всех данных
 
     case VIEW_ALL = 'view-all';
@@ -80,6 +89,11 @@ enum PermissionsEnum: string
             self::EDIT_TOOL => 'Редактирование аппликатора',
             self::VIEW_TOOL => 'Просмотр аппликатора',
             self::DELETE_TOOL => 'Удаление аппликатора',
+
+            self::VIEW_CRIMPING => 'Просмотр параметров обжима',
+            self::EDIT_CRIMPING => 'Редактирование параметров обжима',
+            self::CREATE_CRIMPING => 'Создание параметров обжима',
+            self::DELETE_CRIMPING => 'Удаление параметров обжима',
         };
     }
 
