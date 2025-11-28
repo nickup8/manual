@@ -102,8 +102,8 @@ class WireController extends Controller
     }
 
     public function update(Wire $wire, WireUpdateRequest $request) {
-        $wire = $this->wireService->updateWire($wire, $request->validated());
-        return to_route('wires.index')->with('success', "Провод {$wire->wire_code} успешно обновлен");
+        $wireUpdated = $this->wireService->updateWire($wire, $request->validated());
+        return to_route('wires.index')->with('success', "Провод {$wireUpdated->wire_code} успешно обновлен");
     }
 
 }

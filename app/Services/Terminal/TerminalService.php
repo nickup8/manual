@@ -19,4 +19,9 @@ class TerminalService
 
         return $terminal;
     }
+
+    public function updateTerminal($terminal, $data) {
+        $terminal->update($data);
+        return $terminal;
+    }
 }

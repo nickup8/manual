@@ -4,16 +4,18 @@ import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { useAuth } from '@/hooks/use-auth';
 import AppLayout from '@/layouts/app-layout';
 import { getActiveFiltersSimple } from '@/lib/utils';
 import { BreadcrumbItem, PropsResponse, Terminal } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { PlusCircle, Search, Upload } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import TerminalFilter from './terminal-filter';
 import TerminalTable from './terminal-table';
 
-export default function TerminalIndex({ terminals, filter }: { terminals: PropsResponse<Terminal>; filter: Terminal }) {
+export default function TerminalIndex({ terminals, filter, success }: { terminals: PropsResponse<Terminal>; filter: Terminal; success: string }) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Терминалы',
@@ -31,6 +33,14 @@ export default function TerminalIndex({ terminals, filter }: { terminals: PropsR
         supplier_name: 'Поставщик',
         description: 'Описание',
     });
+
+    useEffect(() => {
+        if (success) {
+            toast.success(success);
+        }
+    }, [success]);
+
+    const { permissions } = useAuth();
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Терминалы" />
@@ -38,12 +48,14 @@ export default function TerminalIndex({ terminals, filter }: { terminals: PropsR
             <div className="flex flex-col space-y-6 px-4 py-6">
                 <Heading title="Терминалы" description="Управляйте номенклатурой терминалов." />
                 <div className="flex items-center gap-2">
-                    <Button asChild>
-                        <Link href="/terminals/create">
-                            <PlusCircle className="h-4 w-4" />
-                            Добавить терминал
-                        </Link>
-                    </Button>
+                    {permissions.includes('create-terminal') && (
+                        <Button asChild>
+                            <Link href="/terminals/create">
+                                <PlusCircle className="h-4 w-4" />
+                                Добавить терминал
+                            </Link>
+                        </Button>
+                    )}
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild>
                             <Button variant="outline" className="cursor-pointer">

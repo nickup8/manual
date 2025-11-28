@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TerminalStoreRequest;
+use App\Http\Requests\TerminalUpdateRequest;
 use App\Http\Resources\TerminalResource;
 use App\Models\Terminal;
 use App\Services\Terminal\TerminalService;
@@ -42,6 +43,7 @@ class TerminalController extends Controller
         return inertia('terminals/terminal-index', [
             'terminals' => TerminalResource::collection($terminals),
             'filter' => $filter,
+            'success' => session('success'),
         ]);
     }
 
@@ -58,5 +60,17 @@ class TerminalController extends Controller
         $terminal = $this->terminalService->createTerminal($data);
 
         return back()->with('success', "Терминал {$terminal->part_number} успешно создан");
+    }
+
+    public function edit(Terminal $terminal) {
+        return inertia('terminals/terminal-edit', [
+            'terminal' => $terminal,
+            'success' => session('success'),
+        ]);
+    }
+
+    public function update(Terminal $terminal, TerminalUpdateRequest $request) {
+        $terminalUpdated = $this->terminalService->updateTerminal($terminal, $request->validated());
+        return to_route('terminals.index')->with('success', "Терминал {$terminalUpdated->part_number} успешно обновлен");
     }
 }

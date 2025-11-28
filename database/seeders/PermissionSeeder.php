@@ -31,6 +31,8 @@ class PermissionSeeder extends Seeder
                 PermissionsEnum::VIEW_LEADSET->value,
                 PermissionsEnum::CREATE_TERMINAL->value,
                 PermissionsEnum::VIEW_TERMINAL->value,
+                PermissionsEnum::EDIT_TERMINAL->value,
+                PermissionsEnum::DELETE_TERMINAL->value,
                 PermissionsEnum::CREATE_SEAL->value,
                 PermissionsEnum::VIEW_SEAL->value,
                 PermissionsEnum::CREATE_WIRE->value,

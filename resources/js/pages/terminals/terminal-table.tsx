@@ -1,8 +1,14 @@
 import { DataTable } from '@/components/data-table';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/hooks/use-auth';
 import { Terminal } from '@/types';
+import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
+import { EllipsisVertical } from 'lucide-react';
 
 export default function TerminalTable({ data }: { data: Terminal[] }) {
+    const { permissions } = useAuth();
     const columns: ColumnDef<Terminal>[] = [
         {
             accessorKey: 'part_number',
@@ -43,6 +49,34 @@ export default function TerminalTable({ data }: { data: Terminal[] }) {
                     hour: 'numeric',
                     minute: 'numeric',
                 }),
+        },
+        {
+            id: 'actions',
+            cell: ({ row }) => (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
+                            <EllipsisVertical />
+                            <span className="sr-only">Open menu</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-32">
+                        {permissions.includes('edit-terminal') && (
+                            <DropdownMenuItem asChild>
+                                <Link href={`/terminals/${row.original.id}/edit`}>Редактировать</Link>
+                            </DropdownMenuItem>
+                        )}
+                        {/* <DropdownMenuItem>Копировать</DropdownMenuItem> */}
+
+                        {permissions.includes('delete-terminal') && (
+                            <>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem variant="destructive">Удалить</DropdownMenuItem>
+                            </>
+                        )}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            ),
         },
     ];
 
