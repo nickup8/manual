@@ -10,7 +10,8 @@ import { getWireActiveFilters } from '@/lib/utils';
 import { BreadcrumbItem, PropsResponse, Wire, WireColor, WireFilterParams, WireType } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { PlusCircle, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import WireFilter from './wire-filter';
 import WireTable from './wire-table';
 
@@ -20,12 +21,14 @@ export default function WireIndex({
     wires,
     queryParams,
     filter,
+    success,
 }: {
     wire_types: WireType[];
     wire_colors: WireColor[];
     wires: PropsResponse<Wire>;
     queryParams?: Record<string, string>;
     filter: WireFilterParams;
+    success?: string | null;
 }) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -46,6 +49,12 @@ export default function WireIndex({
         wire_types,
         wire_colors,
     );
+
+    useEffect(() => {
+        if (success) {
+            toast.success(success);
+        }
+    }, [success]);
 
     const [open, setOpen] = useState(false);
 

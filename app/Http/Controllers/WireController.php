@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WireStoreRequest;
+use App\Http\Requests\WireUpdateRequest;
 use App\Http\Resources\WireResource;
 use App\Http\Resources\WireTypeResource;
 use App\Models\Wire;
@@ -59,6 +60,7 @@ class WireController extends Controller
             'wire_colors' => $wire_colors,
             'wires' => $wires,
             'filter' => $filter,
+            'success' => session('success'),
         ]);
     }
 
@@ -99,8 +101,9 @@ class WireController extends Controller
         ]);
     }
 
-    public function update(Wire $wire, WireStoreRequest $request) {
-        return $this->wireService->updateWire($wire, $request->validated());
+    public function update(Wire $wire, WireUpdateRequest $request) {
+        $wire = $this->wireService->updateWire($wire, $request->validated());
+        return to_route('wires.index')->with('success', "Провод {$wire->wire_code} успешно обновлен");
     }
 
 }
