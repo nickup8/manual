@@ -2,14 +2,16 @@ import { ActiveFilters } from '@/components/active-filters';
 import Heading from '@/components/heading';
 import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/hooks/use-auth';
 import AppLayout from '@/layouts/app-layout';
 import { getActiveFiltersSimple } from '@/lib/utils';
+import { destroy } from '@/routes/terminals';
 import { BreadcrumbItem, PropsResponse, Terminal } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { PlusCircle, Search, Upload } from 'lucide-react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { Loader2, PlusCircle, Search, Upload } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import TerminalFilter from './terminal-filter';
@@ -26,6 +28,13 @@ export default function TerminalIndex({ terminals, filter, success }: { terminal
     // state
 
     const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [deleteTerminal, setDeleteTerminal] = useState<Terminal | undefined>();
+
+    const deletedTerminal = (id: number) => {
+        setDeleteTerminal(terminals.data.find((terminal) => terminal.id === id));
+        setOpenModal(true);
+    };
 
     const activeFilter = getActiveFiltersSimple(filter, {
         part_number: 'Код терминала (YPN)',
@@ -39,6 +48,24 @@ export default function TerminalIndex({ terminals, filter, success }: { terminal
             toast.success(success);
         }
     }, [success]);
+
+    const { submit, processing } = useForm();
+
+    const handleDelete = async (id: number) => {
+        try {
+            await submit(destroy(id), {
+                onSuccess: () => {
+                    setOpenModal(false);
+                },
+                onError: () => {
+                    toast.error('При удалении терминала произошла ошибка. Проверьте введенные данные и попробуйте снова.');
+                    setOpenModal(false);
+                },
+            });
+        } catch (error) {
+            toast.error('При удалении терминала произошла ошибка. Проверьте введенные данные и попробуйте снова.');
+        }
+    };
 
     const { permissions } = useAuth();
     return (
@@ -76,13 +103,39 @@ export default function TerminalIndex({ terminals, filter, success }: { terminal
                     </Button>
                 </div>
                 {activeFilter.length > 0 && <ActiveFilters filters={activeFilter} />}
-                <TerminalTable data={terminals.data} />
+                <TerminalTable data={terminals.data} deletedTerminal={deletedTerminal} />
                 {terminals.meta.last_page > 1 && (
                     <div className="mt-2 flex justify-center">
                         <Pagination links={terminals.meta.links} />
                     </div>
                 )}
             </div>
+            <Dialog
+                open={openModal}
+                onOpenChange={(isOpen) => {
+                    if (!processing) {
+                        setOpenModal(isOpen);
+                    }
+                }}
+            >
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Подтверждение удаления</DialogTitle>
+                        <DialogDescription>
+                            Вы уверены, что хотите удалить терминал <span className="font-bold text-red-500">{deleteTerminal?.part_number}</span>?
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="destructive" onClick={() => handleDelete(deleteTerminal!.id)} disabled={processing}>
+                            {processing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            Удалить
+                        </Button>
+                        <Button variant="outline" onClick={() => setOpenModal(false)}>
+                            Отменить
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </AppLayout>
     );
 }

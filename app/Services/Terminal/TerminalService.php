@@ -24,4 +24,9 @@ class TerminalService
         $terminal->update($data);
         return $terminal;
     }
+
+    public function deleteTerminal($terminal) {
+        $terminal->delete();
+        return $terminal;
+    }
 }

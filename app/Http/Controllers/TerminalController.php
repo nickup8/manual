@@ -73,4 +73,10 @@ class TerminalController extends Controller
         $terminalUpdated = $this->terminalService->updateTerminal($terminal, $request->validated());
         return to_route('terminals.index')->with('success', "Терминал {$terminalUpdated->part_number} успешно обновлен");
     }
+
+    public function destroy(Terminal $terminal) {
+        $terminalDestroyed = $this->terminalService->deleteTerminal($terminal);
+        
+        return back()->with('success', "Терминал {$terminalDestroyed->part_number} успешно удален");
+    }
 }

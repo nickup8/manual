@@ -3,12 +3,13 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/hooks/use-auth';
 import { Terminal } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { EllipsisVertical } from 'lucide-react';
 
-export default function TerminalTable({ data }: { data: Terminal[] }) {
+export default function TerminalTable({ data, deletedTerminal }: { data: Terminal[]; deletedTerminal: (id: number) => void }) {
     const { permissions } = useAuth();
+    const { submit } = useForm();
     const columns: ColumnDef<Terminal>[] = [
         {
             accessorKey: 'part_number',
@@ -71,7 +72,9 @@ export default function TerminalTable({ data }: { data: Terminal[] }) {
                         {permissions.includes('delete-terminal') && (
                             <>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem variant="destructive">Удалить</DropdownMenuItem>
+                                <DropdownMenuItem variant="destructive" onClick={() => deletedTerminal(row.original.id)}>
+                                    Удалить
+                                </DropdownMenuItem>
                             </>
                         )}
                     </DropdownMenuContent>
