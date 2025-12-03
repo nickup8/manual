@@ -106,4 +106,10 @@ class WireController extends Controller
         return to_route('wires.index')->with('success', "Провод {$wireUpdated->wire_code} успешно обновлен");
     }
 
+    public function destroy(Wire $wire) {
+        $wire->delete();
+        return to_route('wires.index')->with('success', "Провод {$wire->wire_code} успешно удален");
+
+    }
+
 }

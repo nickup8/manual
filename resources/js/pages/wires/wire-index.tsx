@@ -2,14 +2,17 @@ import { ActiveFilters } from '@/components/active-filters';
 import HeadingSmall from '@/components/heading-small';
 import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/hooks/use-auth';
 import AppLayout from '@/layouts/app-layout';
 import WireLayout from '@/layouts/wires-leyout';
 import { getWireActiveFilters } from '@/lib/utils';
+import { destroy } from '@/routes/wires';
 import { BreadcrumbItem, PropsResponse, Wire, WireColor, WireFilterParams, WireType } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { PlusCircle, Search } from 'lucide-react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { Dialog } from '@radix-ui/react-dialog';
+import { Loader2, PlusCircle, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import WireFilter from './wire-filter';
@@ -57,8 +60,33 @@ export default function WireIndex({
     }, [success]);
 
     const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [deleteWire, setDeleteWire] = useState<Wire | undefined>();
 
     const { permissions } = useAuth();
+
+    const { submit, processing } = useForm();
+
+    const deletedWire = (id: number) => {
+        setDeleteWire(wires.data.find((wire) => wire.id === id));
+        setOpenModal(true);
+    };
+
+    const handleDelete = async (id: number) => {
+        try {
+            await submit(destroy(id), {
+                onSuccess: () => {
+                    setOpenModal(false);
+                },
+                onError: () => {
+                    toast.error('При удалении провода произошла ошибка. Проверьте введенные данные и попробуйте снова.');
+                    setOpenModal(false);
+                },
+            });
+        } catch (error) {
+            toast.error('При удалении провода произошла ошибка. Проверьте введенные данные и попробуйте снова.');
+        }
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -95,7 +123,7 @@ export default function WireIndex({
                             </Sheet>
                         </div>
                         {activeFilters.length > 0 && <ActiveFilters filters={activeFilters} />}
-                        <WireTable wires={wires.data} />
+                        <WireTable wires={wires.data} deletedWire={deletedWire} />
                         {wires.meta.last_page > 1 && (
                             <div className="mt-2 flex justify-center">
                                 <Pagination links={wires.meta.links} />
@@ -103,6 +131,33 @@ export default function WireIndex({
                         )}
                     </div>
                 </div>
+
+                <Dialog
+                    open={openModal}
+                    onOpenChange={(isOpen) => {
+                        if (!processing) {
+                            setOpenModal(isOpen);
+                        }
+                    }}
+                >
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Подтверждение удаления</DialogTitle>
+                            <DialogDescription>
+                                Вы уверены, что хотите удалить провод <span className="font-bold text-red-500">{deleteWire?.wire_code}</span>?
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <Button variant="destructive" onClick={() => handleDelete(deleteWire!.id)} disabled={processing}>
+                                {processing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Удалить
+                            </Button>
+                            <Button variant="outline" onClick={() => setOpenModal(false)}>
+                                Отменить
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </WireLayout>
         </AppLayout>
     );

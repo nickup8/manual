@@ -7,7 +7,7 @@ import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { EllipsisVertical } from 'lucide-react';
 
-export default function WireTable({ wires }: { wires: Wire[] }) {
+export default function WireTable({ wires, deletedWire }: { wires: Wire[]; deletedWire: (id: number) => void }) {
     const { permissions } = useAuth();
 
     const column: ColumnDef<Wire>[] = [
@@ -74,7 +74,12 @@ export default function WireTable({ wires }: { wires: Wire[] }) {
                         {/* <DropdownMenuItem>Копировать</DropdownMenuItem> */}
 
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem variant="destructive">Удалить</DropdownMenuItem>
+
+                        {permissions.includes('delete-wire') && (
+                            <DropdownMenuItem variant="destructive" onClick={() => deletedWire(row.original.id)}>
+                                Удалить
+                            </DropdownMenuItem>
+                        )}
                     </DropdownMenuContent>
                 </DropdownMenu>
             ),

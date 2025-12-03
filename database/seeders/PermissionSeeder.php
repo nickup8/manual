@@ -38,6 +38,7 @@ class PermissionSeeder extends Seeder
                 PermissionsEnum::CREATE_WIRE->value,
                 PermissionsEnum::VIEW_WIRE->value,
                 PermissionsEnum::EDIT_WIRE->value,
+                PermissionsEnum::DELETE_WIRE->value,
                 PermissionsEnum::VIEW_CRIMPING->value,
                 PermissionsEnum::EDIT_CRIMPING->value,
                 PermissionsEnum::CREATE_CRIMPING->value,

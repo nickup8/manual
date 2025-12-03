@@ -8,6 +8,7 @@ import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/hooks/use-auth';
 import AppLayout from '@/layouts/app-layout';
 import { getActiveFiltersSimple } from '@/lib/utils';
+
 import { destroy } from '@/routes/terminals';
 import { BreadcrumbItem, PropsResponse, Terminal } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
